@@ -32,8 +32,12 @@ Las promos están en el arreglo `PROMOS` al inicio del `<script>` de `index.html
 
 ## Estaciones
 
-`stations.json` sale de OpenStreetMap (amenity=fuel) filtrado a Paraguay: `[lat, lon, emblema, nombre, ciudad]`.
-Los datos son © colaboradores de OpenStreetMap y pueden estar incompletos.
+`stations.json`: `[lat, lon, emblema, nombre, ciudad]`. Fuentes:
+
+- Listados oficiales con coordenadas: Petropar (Google My Maps), Copetrol (API del localizador), Petrobras (planilla de estaciones), Puma (mapa del sitio), Shell (localizador oficial), Petrosur, Petromax, Compasa y Enex (sus sitios).
+- OpenStreetMap (amenity=fuel, © colaboradores de OpenStreetMap) para los demás emblemas y para completar lo que falte. Petrochaco publica solo direcciones, sin coordenadas.
+
+Se descartan duplicados a menos de 150 m del mismo emblema y se corrigieron dos coordenadas erróneas de la planilla de Petrobras.
 
 ## Logos
 

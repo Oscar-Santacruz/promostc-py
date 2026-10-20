@@ -328,7 +328,7 @@ footer p{margin:0;text-wrap:pretty}
       <label class="search"><svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="sr">Buscar estación</span><input type="search" id="st-q" placeholder="Buscar por nombre o ciudad"></label>
       <button class="btn pri" id="near" type="button"><svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg>Cerca de mí</button>
     </div>
-    <div class="legend" id="legend"><span><i class="dot hot"></i><span id="lg-hot">Con promo para tus tarjetas</span></span><span><i class="dot"></i>Sin promo cargada</span><span class="lg-hint">Acercá el mapa para ver el logo de cada estación</span></div>
+    <div class="legend" id="legend"><span><i class="dot hot"></i><span id="lg-hot">Con promo para tus tarjetas</span></span><span><i class="dot"></i>Sin promo cargada</span><span class="lg-hint">Acercá el mapa para ver el logo de cada estación (calles)</span></div>
     <div class="mapbox" id="map" role="region" aria-label="Mapa de estaciones"></div>
     <p class="mapnote" id="mapnote" hidden>El mapa base no se carga en esta vista previa. Los puntos sí se ven. Abrí <a href="https://promostc.onrender.com" target="_blank" rel="noopener">promostc.onrender.com</a> para ver el mapa completo.</p>
     <div class="list" id="st-list"></div>
@@ -336,7 +336,7 @@ footer p{margin:0;text-wrap:pretty}
 
   <footer>
     <p>Cada promo enlaza a su fuente oficial: las bases y condiciones de la entidad, su página de beneficios o su publicación en Instagram o Facebook. Solo se cargan promos publicadas por la propia entidad.</p>
-    <p>Estados: vigente tiene fecha confirmada que cubre hoy; verificar se publicó en 2026 sin fecha de fin; vencida o antigua ya terminó o es anterior a 2026. Las estaciones salen de OpenStreetMap (© colaboradores de OpenStreetMap) y pueden estar incompletas. Los logos pertenecen a sus marcas y se usan solo para identificarlas.</p>
+    <p>Estados: vigente tiene fecha confirmada que cubre hoy; verificar se publicó en 2026 sin fecha de fin; vencida o antigua ya terminó o es anterior a 2026. Las ubicaciones salen de los listados oficiales de Petropar, Copetrol, Petrobras, Puma, Shell, Petrosur, Petromax, Compasa y Enex, y de OpenStreetMap (© colaboradores de OpenStreetMap) para el resto y para completar. Puede faltar alguna estación. Los logos pertenecen a sus marcas y se usan solo para identificarlas.</p>
   </footer>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -1021,7 +1021,7 @@ function updateMap(){
 }
 
 // Al acercar el mapa, cada estación se muestra con el logo de su emblema (y su % si tiene promo)
-const LOGO_ZOOM=12;
+const LOGO_ZOOM=14;
 function logoHTML(s){
   const l0=s.s&&LOGOS[s.s];
   const inner=l0&&l0.icon?`<img src="${l0.icon}" alt="" width="30" height="30">`:(s.s?`<span class="mono2">${esc(initials(BRANDNAME(s.s)))}</span>`:FUEL_SVG);
