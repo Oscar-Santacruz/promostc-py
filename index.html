@@ -99,31 +99,40 @@ button{font:inherit;color:inherit;cursor:pointer}
 .plate.fuel .ico{width:12px;height:12px}
 .plate:not(.sm).fuel .ico{width:16px;height:16px}
 
-/* Filtros: una fila de estaciones, una fila de controles */
+/* Paneles de filtro: Mis tarjetas y Estación. Los chips pasan a varias filas, nunca scroll horizontal */
 .controls{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
-.wrap>*{min-width:0}
-.emblems{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin;overscroll-behavior-x:contain}
-.emb{flex:none;display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-ctl);padding:0 12px 0 8px;min-height:40px;font-size:14px;font-weight:500;white-space:nowrap;transition:border-color .15s ease-out,background-color .15s ease-out}
-.emb.all{padding-left:12px}
-.emb:hover{border-color:var(--control)}
-.emb[aria-pressed="true"]{background:var(--petrol);border-color:var(--petrol);color:var(--on-petrol);font-weight:600}
-.emb:active{scale:.96}
-.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.seg{display:flex;gap:2px;background:var(--active);padding:3px;border-radius:var(--r-card);overflow-x:auto;max-width:100%}
-.seg button{background:transparent;border:0;border-radius:var(--r-ctl);padding:0 12px;min-height:34px;font-size:14px;font-weight:500;color:var(--muted);white-space:nowrap;transition:background-color .15s ease-out,color .15s ease-out}
-.seg button:hover{color:var(--text)}
-.seg button[aria-pressed="true"]{background:var(--surface);color:var(--text);font-weight:600}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card)}
+.panel>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;min-height:48px;padding:0 14px;font-weight:600;font-size:15px}
+.panel>summary::-webkit-details-marker{display:none}
+.panel>summary .sel{margin-left:auto;font-weight:500;font-size:13px;color:var(--muted);text-align:right}
+.panel>summary::after{content:"";flex:none;width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg) translateY(-2px);transition:transform .15s ease-out}
+.panel[open]>summary::after{transform:rotate(225deg) translateY(-2px)}
+.panel .body{padding:2px 14px 14px;display:grid;gap:14px}
+.grp{display:grid;gap:8px}
+.grp h3{margin:0;font-size:13px;font-weight:500;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--control);border-radius:var(--r-ctl);padding:0 12px 0 8px;min-height:44px;font-size:14px;font-weight:500;text-align:left;transition:border-color .15s ease-out,background-color .15s ease-out}
+.chip.plain{padding-left:12px}
+.chip:hover{border-color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--petrol);border-color:var(--petrol);color:var(--on-petrol);font-weight:600}
+.chip:active{scale:.96}
+.clear{justify-self:start;background:none;border:0;color:var(--petrol);font-weight:600;font-size:14px;min-height:44px;padding:0;text-decoration:underline;text-underline-offset:4px}
+.lvlrow{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;padding:10px 12px;background:var(--raised);border:1px solid var(--border);border-radius:var(--r-card)}
+.lvlrow[hidden]{display:none}
+.lvlrow p{margin:0;font-size:13px;color:var(--muted);flex:1 1 220px}
+.seg{display:flex;gap:2px;background:var(--active);padding:3px;border-radius:var(--r-card)}
+.seg button{background:transparent;border:0;border-radius:var(--r-ctl);padding:0 10px;min-width:44px;min-height:44px;font-size:15px;font-weight:600;color:var(--muted);transition:background-color .15s ease-out,color .15s ease-out}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--text)}
 .seg button:active{scale:.96}
-.search{flex:1 1 220px;display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--control);border-radius:var(--r-ctl);padding:0 10px;min-height:40px;color:var(--muted)}
+.bar{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
+.search{flex:1 1 240px;display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--control);border-radius:var(--r-ctl);padding:0 10px;min-height:44px;color:var(--muted)}
 .search:focus-within{border-color:var(--petrol)}
-.search input{flex:1;min-width:0;border:0;background:transparent;font:inherit;color:var(--text);outline:0;height:38px}
+.search input{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:16px;color:var(--text);outline:0;height:42px}
 .search input::placeholder{color:var(--faint)}
-.more{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:14px;color:var(--muted)}
-.more label{display:flex;align-items:center;gap:8px;min-height:40px;cursor:pointer}
-.more select{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--control);border-radius:var(--r-ctl);min-height:36px;padding:0 8px}
-.more input[type=checkbox]{accent-color:var(--petrol);width:16px;height:16px}
-.lvl{display:flex;align-items:center;gap:8px}
-.lvl .seg button{min-width:36px;padding:0 8px}
+.more{display:flex;flex-wrap:wrap;gap:4px 16px;align-items:center;font-size:14px;color:var(--muted)}
+.more label{display:flex;align-items:center;gap:8px;min-height:44px;cursor:pointer}
+.more select{font:inherit;font-size:16px;color:var(--text);background:var(--surface);border:1px solid var(--control);border-radius:var(--r-ctl);min-height:44px;padding:0 8px}
+.more input[type=checkbox]{accent-color:var(--petrol);width:20px;height:20px}
 
 /* Lista */
 .listhead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -169,6 +178,23 @@ button{font:inherit;color:inherit;cursor:pointer}
 footer{color:var(--muted);font-size:13px;max-width:80ch;display:grid;gap:6px}
 footer p{margin:0;text-wrap:pretty}
 
+/* Estaciones */
+.st-head{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border-radius:var(--r-ctl);border:1px solid var(--control);background:var(--surface);font-weight:600;font-size:14px;text-decoration:none;transition:border-color .15s ease-out}
+.btn:hover{border-color:var(--muted)}
+.btn:active{scale:.96}
+.btn.pri{background:var(--petrol);border-color:var(--petrol);color:var(--on-petrol)}
+.st-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 14px;border-top:1px solid var(--rule)}
+.st-row:first-child{border-top:0}
+.st-n{font-weight:600;font-size:15px;line-height:1.3}
+.st-c{font-size:13px;color:var(--muted)}
+.st-p{font-size:13px;margin-top:2px}
+.st-p b{color:var(--amber);font-family:var(--fig);font-size:16px}
+.st-d{text-align:right;font-size:13px;color:var(--muted);white-space:nowrap;display:grid;gap:4px;justify-items:end}
+.st-d .go{color:var(--petrol);font-weight:600;min-height:32px;display:inline-flex;align-items:center;text-decoration:underline;text-underline-offset:4px}
+.st-msg{padding:20px 14px;color:var(--muted);font-size:14px}
+.st-more{margin:12px 14px 14px}
+
 @media (max-width:980px){
   .cols{display:none}
   .promo{grid-template-columns:minmax(0,1fr) auto;gap:10px 14px;padding-inline:14px}
@@ -183,9 +209,11 @@ footer p{margin:0;text-wrap:pretty}
   .today{padding:14px}
   .today h1{font-size:22px}
   .money{grid-template-columns:auto 1fr}
-  .bar{flex-direction:column;align-items:stretch}
-  .search{flex:0 0 auto}
+  .st-row{grid-template-columns:auto minmax(0,1fr)}
+  .st-d{grid-column:2;justify-items:start;grid-auto-flow:column;gap:14px}
+  .wrap{padding-bottom:max(56px,calc(24px + env(safe-area-inset-bottom,0px)))}
 }
+@media (hover:none){.chip:hover,.btn:hover,.pick a:hover{border-color:var(--control)}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}.best.swap{opacity:1}}
 </style>
 
@@ -208,22 +236,35 @@ footer p{margin:0;text-wrap:pretty}
   </section>
 
   <section class="controls" aria-label="Filtros">
-    <div class="emblems" id="emblems" role="group" aria-label="Estación"></div>
+    <details class="panel" id="p-cards" open>
+      <summary>Mis tarjetas <span class="sel" id="sel-cards">Todas</span></summary>
+      <div class="body">
+        <div id="cards"></div>
+        <div class="lvlrow" id="lvlrow" hidden>
+          <span id="lvl-label" style="font-weight:600;font-size:14px">Tu nivel en ueno</span>
+          <div class="seg" id="nivel" role="group" aria-labelledby="lvl-label"></div>
+          <p>Lo ves en la app de ueno, en Beneficios. De tu nivel dependen el porcentaje y los topes.</p>
+        </div>
+        <button class="clear" id="clear-cards" type="button" hidden>Quitar mi selección</button>
+      </div>
+    </details>
+    <details class="panel" id="p-emb" open>
+      <summary>Estación <span class="sel" id="sel-emb">Todas</span></summary>
+      <div class="body"><div class="chips" id="emblems" role="group" aria-label="Estación"></div></div>
+    </details>
     <div class="bar">
-      <div class="seg" id="tipos" role="group" aria-label="Tipo de entidad"></div>
       <label class="search"><svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="sr">Buscar</span><input type="search" id="q" placeholder="Buscar entidad, tarjeta o estación"></label>
-    </div>
-    <div class="more">
-      <div class="lvl"><span id="lvl-label">Tu nivel en ueno</span><div class="seg" id="nivel" role="group" aria-labelledby="lvl-label"></div></div>
-      <label for="sort">Ordenar por
-        <select id="sort">
-          <option value="total">Reintegro máximo por mes</option>
-          <option value="pct">Porcentaje</option>
-          <option value="entidad">Entidad</option>
-          <option value="dias">Día</option>
-        </select>
-      </label>
-      <label><input type="checkbox" id="vencidas"> Mostrar vencidas y antiguas</label>
+      <div class="more">
+        <label for="sort">Ordenar por
+          <select id="sort">
+            <option value="total">Reintegro máximo por mes</option>
+            <option value="pct">Porcentaje</option>
+            <option value="entidad">Entidad</option>
+            <option value="dias">Día</option>
+          </select>
+        </label>
+        <label><input type="checkbox" id="vencidas"> Mostrar vencidas y antiguas</label>
+      </div>
     </div>
   </section>
 
@@ -232,9 +273,18 @@ footer p{margin:0;text-wrap:pretty}
     <div class="list" id="list"></div>
   </section>
 
+  <section id="estaciones" aria-labelledby="st-title" style="display:grid;gap:10px">
+    <div class="listhead"><h2 id="st-title">Estaciones</h2><p id="st-sum"></p></div>
+    <div class="st-head">
+      <label class="search"><svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="sr">Buscar estación</span><input type="search" id="st-q" placeholder="Buscar por nombre o ciudad"></label>
+      <button class="btn pri" id="near" type="button"><svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg>Cerca de mí</button>
+    </div>
+    <div class="list" id="st-list"></div>
+  </section>
+
   <footer>
-    <p>Cada promo enlaza a su fuente: las bases y condiciones de la entidad cuando existen, o la publicación de Instagram o Facebook donde se anunció. Las que vienen del agregador Benefix conviene confirmarlas en la entidad.</p>
-    <p>Estados: vigente tiene fecha confirmada que cubre hoy; verificar se publicó en 2026 sin fecha de fin; vencida o antigua ya terminó o es anterior a 2026. Los logos pertenecen a sus marcas y se usan solo para identificarlas.</p>
+    <p>Cada promo enlaza a su fuente oficial: las bases y condiciones de la entidad, su página de beneficios o su publicación en Instagram o Facebook. Solo se cargan promos publicadas por la propia entidad.</p>
+    <p>Estados: vigente tiene fecha confirmada que cubre hoy; verificar se publicó en 2026 sin fecha de fin; vencida o antigua ya terminó o es anterior a 2026. Las estaciones salen de OpenStreetMap (© colaboradores de OpenStreetMap) y pueden estar incompletas. Los logos pertenecen a sus marcas y se usan solo para identificarlas.</p>
   </footer>
 </div>
 
@@ -258,38 +308,18 @@ const PROMOS = [
   {entidad:["Coopec"],tipo:"Cooperativa",emblemas:["Estaciones adheridas"],dias:["todos"],afin:["Cabal crédito"],pct:8,pctTxt:"8%",limite:null,tope:null,per:"Diaria",desde:"2021-06-30",hasta:null,antigua:true,nota:"Post de 2021. En agosto 2026 publicó un calendario de días de ahorro solo en imagen.",src:"https://www.facebook.com/coopecltdapy/photos/ahorra-8-en-tu-carga-de-combustible-todos-los-dias-pagando-con-tu-tarjeta-de-cr%C3%A9/2913928648935727/"},
   {entidad:["Cooperativa Capiatá"],tipo:"Cooperativa",emblemas:["Grupo Bahía"],dias:["todos"],afin:["Débito Capiatá"],pct:null,pctTxt:"Gs. 300 menos por litro",limite:null,tope:null,per:"—",desde:"2022-01-01",hasta:null,antigua:true,nota:"Post de 2022.",src:"https://www.instagram.com/p/CelqR6VuBrU/"},
   {entidad:["Copacons"],tipo:"Cooperativa",emblemas:["Todas las estaciones"],dias:["todos"],afin:["Tarjetas Copacons"],pct:5,pctTxt:"5%",limite:null,tope:null,per:"—",desde:"2020-12-18",hasta:null,antigua:true,nota:"Post de 2020.",src:"https://www.facebook.com/copacons.ltda/photos/d41d8cd9/2499642683672905/?set=a.2078624782441366&locale=es_LA"},
-  {entidad:["Cooperativas con Cabal"],tipo:"Cooperativa",emblemas:["Petrosur"],dias:["todos"],afin:["Cabal crédito (Universitaria, Coomecipar, Medalla Milagrosa, Lambaré, Mburicao y otras adheridas)"],pct:8,pctTxt:"8% (5% Cabal genérica)",limite:null,tope:null,per:"Diaria",desde:"2026-07-31",hasta:null,nota:"Descuento en extracto de lunes a lunes. Lista completa de cooperativas en el post de Petrosur.",src:"https://www.facebook.com/petrosurpy/videos/descuento-en-todos-los-combustibles-todos-los-d%C3%ADaspagando-tus-cargas-con-tu-tarj/1443662876110253/"},
   {entidad:["Cooperativa Medalla Milagrosa"],tipo:"Cooperativa",emblemas:["Petrosur"],dias:["todos"],afin:["Cabal crédito"],pct:15,pctTxt:"3 cupones de 5%",limite:null,tope:null,per:"Diaria",desde:null,hasta:null,antigua:true,nota:"Hasta 15% por día y 10% en lubricantes. Post sin fecha visible.",src:"https://www.facebook.com/CoopMedallaPy/posts/carg%C3%A1-combustible-con-este-descuento-que-ten%C3%A9s-con-tus-tarjetas-de-cr%C3%A9dito-cabal/3730913106984984/"},
-  {entidad:["Cooperativa Coomecipar"],tipo:"Cooperativa",emblemas:["Petrosur"],dias:["todos"],afin:["Cabal crédito"],pct:10,pctTxt:"10% (15% martes)",limite:null,tope:null,per:"Diaria",desde:"2023-07-01",hasta:null,antigua:true,nota:"Posts de 2023–2024; no hay confirmación 2026.",src:"https://www.instagram.com/reel/Cwz-Rcmuwh2/"},
-  {entidad:["Cooperativa Coomecipar"],tipo:"Cooperativa",emblemas:["Energy","Petrosur"],dias:["ju"],afin:["TC Coomecipar"],pct:15,pctTxt:"Energy 15% · Petrosur 8%",limite:null,tope:null,per:"—",desde:null,hasta:null,antigua:true,nota:"Solo vista en un resumen de búsqueda, sin fecha. La web de tarjetas de Coomecipar (05/10/2026) no menciona promos de combustible.",src:"https://www.facebook.com/prensacooperativapy/posts/%EF%B8%8F-entre-los-principales-beneficios-de-contar-con-las-tarjetas-de-cr%C3%A9dito-coomeci/5041080719304366/"},
   {entidad:["Cooperativa Ñanemba'e"],tipo:"Cooperativa",emblemas:["Shell"],dias:["ver bases"],afin:["Tarjeta de débito Ñanemba'e"],pct:null,pctTxt:"Gs. 300 menos por litro",limite:null,tope:null,per:"—",desde:null,hasta:null,antigua:true,nota:"Post sin fecha, probablemente 2022–2023.",src:"https://www.facebook.com/Cooperativa.nanembae/posts/-hoy-tenes-descuento-con-tu-tarjetadedebito-de-la-cooperativa-%C3%B1anembae-todo-el-d/5986179414744786/"},
 
   // Bancos
   {entidad:["ueno bank"],tipo:"Banco",emblemas:["Petrobras (app Premmia)","Copetrol","Enex","Petrochaco","3MG","Puma (solo red upay)","Petromax"],dias:["todos"],afin:["Mastercard Dúo Clásica","Black","Albirroja"],pct:40,pctTxt:"40% en nivel 5",limite:150000,tope:60000,per:"Semanal",desde:"2026-10-01",hasta:"2026-10-31",niveles:[[10,25000,2500],[15,50000,7500],[25,75000,18750],[30,125000,37500],[40,150000,60000]],nota:"El % y el tope dependen de tu nivel en ueno (lo ves en la app, en Beneficios). El tope de compra se renueva cada semana.",src:"https://www.ueno.com.py/wp-content/uploads/2026/09/Beneficio-de-Reintegro-COMBUSTIBLES-_-OCT-2026v4.pdf"},
   {entidad:["ueno bank"],tipo:"Banco",emblemas:["Petropar"],dias:["todos"],afin:["Mastercard Dúo Clásica","Black","Albirroja","app Petropar"],pct:40,pctTxt:"40% en nivel 5",limite:600000,tope:240000,per:"Mensual",desde:"2026-10-01",hasta:"2026-10-31",niveles:[[10,100000,10000],[15,200000,30000],[25,300000,75000],[30,500000,150000],[40,600000,240000]],nota:"El % y el tope dependen de tu nivel en ueno. Tarjeta física o Apple/Google Pay en POS upay, o carga desde la app Petropar; no vale QR.",src:"https://www.ueno.com.py/wp-content/uploads/2026/09/Beneficio-de-Reintegro-Petropar-_-OCT-2026v3.pdf"},
   {entidad:["Banco GNB"],tipo:"Banco",emblemas:["Copetrol"],dias:["lu"],afin:["Mastercard Metalcard","Black","Black Premier","QR app Copetrol Vamos"],pct:30,pctTxt:"30% (25% + 5% QR)",limite:1000000,tope:null,per:"Mensual",desde:"2026-07-06",hasta:"2026-12-28",nota:"Clásica y Oro: 15% + 5% QR = 20%. No aplica débito ni Visa.",src:"https://www.beneficiosbancognb.com.py/beneficios/148/"},
-  {entidad:["Banco GNB"],tipo:"Banco",emblemas:["Petrobras (app Premmia)"],dias:["mi"],afin:["Mastercard GNB"],pct:20,pctTxt:"20%",limite:500000,tope:100000,per:"Diaria",desde:null,hasta:null,nota:"Tope por día de promoción. Las últimas bases encontradas vencían en 06/2025.",src:"https://www.petrobrasdistribucion.com.py/gnb/"},
   {entidad:["Banco GNB"],tipo:"Banco",emblemas:["Petrochaco"],dias:["ma"],afin:["Tarjetas de crédito GNB"],pct:20,pctTxt:"20%",limite:null,tope:null,per:"—",desde:null,hasta:null,nota:"",src:"https://www.beneficiosbancognb.com.py/beneficios/148/"},
   {entidad:["Banco GNB"],tipo:"Banco",emblemas:["Petrosur"],dias:["vi"],afin:["Tarjetas de crédito GNB"],pct:20,pctTxt:"20%",limite:null,tope:null,per:"—",desde:null,hasta:null,nota:"",src:"https://www.beneficiosbancognb.com.py/beneficios/148/"},
-  {entidad:["Banco Atlas"],tipo:"Banco",emblemas:["Petrobras (app Premmia)"],dias:["ma"],afin:["TC Premium 25%","Clásica y Oro 20%"],pct:25,pctTxt:"20–25%",limite:1000000,tope:null,per:"Mensual",desde:null,hasta:"2026-12-31",nota:"Pago solo desde la app Petrobras Premmia.",src:"https://www.benefix.com.py/descuentos/combustible"},
-  {entidad:["Banco Atlas","Banco Continental","Banco GNB","Financiera Paraguayo Japonesa"],tipo:"Banco",emblemas:["Petrosur"],dias:["ma"],afin:["Todas las TC 20%","Mastercard Black, Visa Infinite, Signature 25%"],pct:25,pctTxt:"20–25%",limite:1000000,tope:null,per:"Mensual",desde:null,hasta:null,nota:"",src:"https://www.benefix.com.py/descuentos/combustible"},
-  {entidad:["Banco Familiar","Banco Atlas"],tipo:"Banco",emblemas:["Estaciones adheridas","Petropar Capitán Miranda"],dias:["ma"],afin:["TC Familiar","Mastercard Black, Visa Infinite, Signature 25%"],pct:25,pctTxt:"20–25%",limite:1000000,tope:null,per:"Mensual",desde:null,hasta:"2026-12-31",nota:"Límite 1.000.000 para Black/Infinite/Signature.",src:"https://www.familiar.com.py/promociones-tarjetas"},
-  {entidad:["Itaú"],tipo:"Banco",emblemas:["Shell"],dias:["lu"],afin:["TC Clásica","Oro","Premium"],pct:20,pctTxt:"20%",limite:null,tope:null,per:"—",desde:"2026-02-23",hasta:"2026-12-31",nota:"Tope para Clásica no visible en la fuente.",src:"https://www.benefix.com.py/descuentos/combustible"},
-  {entidad:["Itaú","Interfisa","Financiera FIC"],tipo:"Banco",emblemas:["Shell"],dias:["ver bases"],afin:["Red Infonet"],pct:30,pctTxt:"30%",limite:666667,tope:null,per:"Mensual",desde:null,hasta:null,nota:"Reintegro en extracto.",src:"https://www.benefix.com.py/descuentos/combustible"},
-  {entidad:["Banco Continental"],tipo:"Banco",emblemas:["Energy"],dias:["vi"],afin:["Privilege 25%","Clásica, Oro, Black, Infinite 20%","POS Dinelco"],pct:25,pctTxt:"20–25%",limite:500000,tope:null,per:"Semanal",desde:null,hasta:null,nota:"Solo POS Dinelco, compras presenciales.",src:"https://www.benefix.com.py/descuentos/combustible"},
-  {entidad:["Banco Continental"],tipo:"Banco",emblemas:["HN","Enercon"],dias:["vi"],afin:["TC Continental","POS Dinelco"],pct:20,pctTxt:"20%",limite:500000,tope:null,per:"Semanal",desde:null,hasta:null,nota:"",src:"https://www.benefix.com.py/descuentos/combustible"},
-  {entidad:["Banco Continental"],tipo:"Banco",emblemas:["Ecop"],dias:["vi"],afin:["TC Continental","POS Dinelco"],pct:15,pctTxt:"15%",limite:500000,tope:null,per:"Semanal",desde:null,hasta:null,nota:"",src:"https://www.benefix.com.py/descuentos/combustible"},
-  {entidad:["Banco Continental"],tipo:"Banco",emblemas:["Ultra"],dias:["vi"],afin:["TC Continental","POS Dinelco"],pct:10,pctTxt:"10%",limite:500000,tope:null,per:"Semanal",desde:null,hasta:null,nota:"",src:"https://www.benefix.com.py/descuentos/combustible"},
-  {entidad:["BNF","Banco Continental","Financiera Paraguayo Japonesa"],tipo:"Banco",emblemas:["Compasa"],dias:["mi"],afin:["TC","app Copetrol Vamos"],pct:20,pctTxt:"20%",limite:1000000,tope:200000,per:"Mensual",desde:null,hasta:null,nota:"",src:"https://www.benefix.com.py/descuentos/combustible"},
-  {entidad:["Sudameris"],tipo:"Banco",emblemas:["Ecop (varias sucursales)"],dias:["ju"],afin:["Mastercard y Visa Sudameris"],pct:20,pctTxt:"20%",limite:1000000,tope:null,per:"Mensual",desde:null,hasta:null,nota:"Algunas Ecop (ej. Colonias Unidas) solo el primer jueves del mes.",src:"https://www.benefix.com.py/descuentos/combustible"},
-  {entidad:["Sudameris"],tipo:"Banco",emblemas:["Enex (app Sudameris)"],dias:["lu"],afin:["Mastercard y Visa Sudameris"],pct:20,pctTxt:"20%",limite:600000,tope:null,per:"Mensual",desde:null,hasta:null,nota:"Pago desde la app Sudameris.",src:"https://www.instagram.com/p/DX6TPV6j07K/"},
-  {entidad:["Sudameris"],tipo:"Banco",emblemas:["Copetrol (Mariano, Villa Morra, KM2)","Tacuara","otras adheridas"],dias:["ver bases"],afin:["TC física, POS Infonet"],pct:20,pctTxt:"20%",limite:600000,tope:null,per:"Mensual",desde:null,hasta:null,nota:"Tarjeta presente en POS Bancard.",src:"https://www.benefix.com.py/descuentos/combustible"},
-  {entidad:["Sudameris"],tipo:"Banco",emblemas:["Shell (Grupo Laso)"],dias:["lu"],afin:["Mastercard y Visa Sudameris"],pct:15,pctTxt:"15%",limite:1000000,tope:null,per:"Mensual",desde:null,hasta:null,nota:"",src:"https://www.benefix.com.py/descuentos/combustible"},
-  {entidad:["Interfisa"],tipo:"Banco",emblemas:["Alces Group"],dias:["mi"],afin:["TC Interfisa"],pct:20,pctTxt:"20%",limite:null,tope:200000,per:"—",desde:null,hasta:null,nota:"",src:"https://www.benefix.com.py/descuentos/combustible"},
+  {entidad:["Banco Familiar"],tipo:"Banco",emblemas:["Estaciones adheridas","Petropar Capitán Miranda"],dias:["ma"],afin:["Tarjetas de crédito Banco Familiar"],pct:20,pctTxt:"20%",limite:null,tope:null,per:"—",desde:null,hasta:"2026-12-31",nota:"Todos los martes. Los topes no figuran en la página; ver bases en la web del banco.",src:"https://www.familiar.com.py/promociones-tarjetas"},
 
   // Financieras
-  {entidad:["Financiera Paraguayo Japonesa"],tipo:"Financiera",emblemas:["Copetrol"],dias:["mi"],afin:["TC PJ"],pct:20,pctTxt:"20%",limite:null,tope:null,per:"—",desde:"2026-02-01",hasta:null,nota:"",src:"https://www.instagram.com/p/DU9DZh5iZVQ/"},
-  {entidad:["Financiera Paraguayo Japonesa"],tipo:"Financiera",emblemas:["Petrochaco"],dias:["mi"],afin:["TC PJ"],pct:20,pctTxt:"20%",limite:null,tope:null,per:"—",desde:null,hasta:null,nota:"",src:"https://www.benefix.com.py/descuentos/combustible"}
 ];
 
 const LOGOS = {
@@ -682,7 +712,7 @@ const BRAND_RULES=[
   [/Coopec/i,"coopec"],[/Capiat/i,"capiata"],[/Copacons/i,"copacons"],[/Medalla/i,"medalla"],[/Coomecipar/i,"coomecipar"],[/Ñanemba|Nanemba/i,"nanembae"],
   [/Petrosur/i,"petrosur"],[/Petropar/i,"petropar"],[/Copetrol/i,"copetrol"],[/Shell/i,"shell"],[/Petrobras/i,"petrobras"],[/Enex/i,"enex"],
   [/Puma/i,"puma"],[/^Energy/i,"energy"],[/Ecop/i,"ecop"],[/Petrochaco/i,"petrochaco"],[/Compasa/i,"compasa"],[/^Ultra/i,"ultra"],
-  [/Petromax/i,"petromax"],[/3MG/i,"3mg"]
+  [/Petromax/i,"petromax"],[/3MG/i,"3mg"],[/Barcos/i,"barcosyrodados"],[/Fuelpar/i,"fuelpar"]
 ];
 const slugOf=n=>{for(const [re,s] of BRAND_RULES) if(re.test(n)) return s; return null};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -702,9 +732,8 @@ function plate(name,size,isEmblem){
 function source(url){
   const u=url.toLowerCase();
   if(u.includes("instagram.com")) return {t:"Ver publicación en Instagram",k:"post"};
-  if(u.includes("facebook.com")||u.includes("x.com/")) return {t:"Ver publicación en Facebook",k:"post"};
-  if(u.includes("benefix")) return {t:"Ver en Benefix (agregador)",k:"agg"};
-  if(u.endsWith(".pdf")||/bases|beneficio|promo|noticias|gnb\/?$/.test(u)) return {t:"Bases y condiciones",k:"bases"};
+  if(u.includes("facebook.com")) return {t:"Ver publicación en Facebook",k:"post"};
+  if(u.endsWith(".pdf")||/bases|beneficio|promo|noticias/.test(u)) return {t:"Bases y condiciones",k:"bases"};
   return {t:"Página oficial",k:"bases"};
 }
 const LINK_SVG='<svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4 10 14"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>';
@@ -721,15 +750,15 @@ const DAYNAME={lu:"lunes",ma:"martes",mi:"miércoles",ju:"jueves",vi:"viernes",s
 const gs=n=>n==null?"—":"Gs. "+n.toLocaleString("es-PY");
 const fdate=d=>d.split("-").reverse().join("/");
 
-// ---- Estado de la vista
-let state={dia:todayCode,tipo:"",emb:"",q:"",vencidas:false,sort:"total",nivel:5};
-try{const s=JSON.parse(localStorage.getItem("promostc2")||"{}");
-  if(typeof s.tipo==="string")state.tipo=s.tipo; if(s.sort)state.sort=s.sort;
+// ---- Estado de la vista (se recuerda en el navegador: tarjetas, nivel y orden)
+let state={dia:todayCode,cards:[],emb:"",q:"",vencidas:false,sort:"total",nivel:5};
+try{const s=JSON.parse(localStorage.getItem("promostc3")||"{}");
+  if(Array.isArray(s.cards))state.cards=s.cards; if(s.sort)state.sort=s.sort;
   if(typeof s.vencidas==="boolean")state.vencidas=s.vencidas; if(s.nivel>=1&&s.nivel<=5)state.nivel=s.nivel}catch(e){}
-const save=()=>{try{localStorage.setItem("promostc2",JSON.stringify({tipo:state.tipo,sort:state.sort,vencidas:state.vencidas,nivel:state.nivel}))}catch(e){}};
+const save=()=>{try{localStorage.setItem("promostc3",JSON.stringify({cards:state.cards,sort:state.sort,vencidas:state.vencidas,nivel:state.nivel}))}catch(e){}};
 const $=id=>document.getElementById(id);
 
-// ---- Cálculo por promo (el nivel de ueno cambia % , límite y tope)
+// ---- Cálculo por promo (el nivel de ueno cambia %, límite y tope)
 PROMOS.forEach((p,i)=>{p.id=i;p.emSlugs=p.emblemas.map(slugOf);
   p.estado=p.antigua?"antigua":(p.hasta&&p.hasta<TODAY_ISO)?"vencida":(p.hasta&&(!p.desde||p.desde<=TODAY_ISO))?"vigente":"verificar"});
 function compute(){
@@ -745,26 +774,36 @@ function compute(){
 const active=p=>p.estado==="vigente"||p.estado==="verificar";
 const onDay=(p,d)=>d==="todos"||p.dias.includes("todos")||p.dias.includes(d)||(p.dias.includes("d10")&&d===todayCode&&todayDom===10);
 const atAll=p=>p.emblemas.some(e=>/Todas/i.test(e));
+const mine=p=>!state.cards.length||p.entidad.some(e=>state.cards.includes(e));
+const atEmb=p=>!state.emb||p.emSlugs.includes(state.emb)||atAll(p);
 
-// ---- Controles
-$("days").innerHTML=DAYS.map(([c,l,sub])=>`<button class="day" data-d="${c}" type="button">${l}<small>${c===todayCode?"hoy":(sub||"&nbsp;")}</small></button>`).join("");
-$("days").onclick=e=>{const b=e.target.closest(".day");if(!b)return;state.dia=b.dataset.d;render(true)};
+// ---- Mis tarjetas: entidades agrupadas, todas visibles (sin scroll)
+const grpOf=n=>/Caja Mutual/i.test(n)?"Mutuales":/Cooperativa|^Coop/i.test(n)?"Cooperativas":/Financiera/i.test(n)?"Financieras":"Bancos";
+const ENT=[...new Set(PROMOS.flatMap(p=>p.entidad))].map(n=>({n,g:grpOf(n)}));
+const GROUPS=["Bancos","Financieras","Cooperativas","Mutuales"];
+ENT.sort((a,b)=>GROUPS.indexOf(a.g)-GROUPS.indexOf(b.g)||a.n.localeCompare(b.n,"es"));
+$("cards").innerHTML=GROUPS.map(g=>{const l=ENT.filter(e=>e.g===g);return l.length?`<div class="grp"><h3>${g}</h3><div class="chips">${l.map(e=>`<button class="chip" type="button" data-c="${esc(e.n)}">${plate(e.n,"sm")}${esc(e.n.replace(/^(Cooperativa|Banco)\s+/i,""))}</button>`).join("")}</div></div>`:""}).join("");
+$("cards").onclick=e=>{const b=e.target.closest(".chip");if(!b)return;const n=b.dataset.c;state.cards=state.cards.includes(n)?state.cards.filter(x=>x!==n):[...state.cards,n];render(true)};
+$("clear-cards").onclick=()=>{state.cards=[];render(true)};
+$("nivel").innerHTML=[1,2,3,4,5].map(n=>`<button type="button" data-n="${n}" aria-label="Nivel ${n}">${n}</button>`).join("");
+$("nivel").onclick=e=>{const b=e.target.closest("button");if(!b)return;state.nivel=+b.dataset.n;render(true)};
 
+// ---- Estación (emblemas): chips en varias filas
 const EMB=[];const seen=new Set();
 PROMOS.forEach(p=>p.emblemas.forEach(e=>{const s=slugOf(e);if(s&&!seen.has(s)){seen.add(s);EMB.push({s,name:(LOGOS[s]&&LOGOS[s].name)||e.replace(/\s*\(.*\)$/,"")})}}));
 const countFor=s=>PROMOS.filter(p=>active(p)&&p.emSlugs.includes(s)).length;
 EMB.sort((a,b)=>countFor(b.s)-countFor(a.s)||a.name.localeCompare(b.name,"es"));
-$("emblems").innerHTML=`<button class="emb all" data-e="" type="button">Todas las estaciones</button>`+EMB.map(e=>`<button class="emb" data-e="${e.s}" type="button">${plate(e.name,"sm",true)}${esc(e.name)}</button>`).join("");
-$("emblems").onclick=ev=>{const b=ev.target.closest(".emb");if(!b)return;state.emb=state.emb===b.dataset.e?"":b.dataset.e;render(true)};
+$("emblems").innerHTML=`<button class="chip plain" data-e="" type="button">Todas las estaciones</button>`+EMB.map(e=>`<button class="chip" data-e="${e.s}" type="button">${plate(e.name,"sm",true)}${esc(e.name.replace(/\s*(Paraguay|Distribuci.n)$/i,""))}</button>`).join("");
+$("emblems").onclick=ev=>{const b=ev.target.closest(".chip");if(!b)return;state.emb=state.emb===b.dataset.e?"":b.dataset.e;render(true)};
 
-const TIPOS=[["","Todas"],["Banco","Bancos"],["Financiera","Financieras"],["Cooperativa","Cooperativas"],["Mutual","Mutuales"]];
-$("tipos").innerHTML=TIPOS.map(([v,l])=>`<button type="button" data-t="${v}">${l}</button>`).join("");
-$("tipos").onclick=e=>{const b=e.target.closest("button");if(!b)return;state.tipo=b.dataset.t;render(true)};
-$("nivel").innerHTML=[1,2,3,4,5].map(n=>`<button type="button" data-n="${n}" aria-label="Nivel ${n}">${n}</button>`).join("");
-$("nivel").onclick=e=>{const b=e.target.closest("button");if(!b)return;state.nivel=+b.dataset.n;render(true)};
+// ---- Resto de controles
+$("days").innerHTML=DAYS.map(([c,l,sub])=>`<button class="day" data-d="${c}" type="button">${l}<small>${c===todayCode?"hoy":(sub||"&nbsp;")}</small></button>`).join("");
+$("days").onclick=e=>{const b=e.target.closest(".day");if(!b)return;state.dia=b.dataset.d;render(true)};
 $("q").oninput=e=>{state.q=e.target.value;render()};
 $("sort").onchange=e=>{state.sort=e.target.value;render()};
 $("vencidas").onchange=e=>{state.vencidas=e.target.checked;render()};
+// En el teléfono los paneles arrancan plegados para que la lista quede a la vista
+if(matchMedia("(max-width:600px)").matches){$("p-cards").open=false;$("p-emb").open=false}
 
 const DAYORDER={todos:0,lu:1,ma:2,mi:3,ju:4,vi:5,sa:6,do:7,d10:8,"ver bases":9};
 const dayLabel=d=>d.map(x=>x==="todos"?"Todos los días":x==="ver bases"?"Ver bases":x==="d10"?"Día 10 de cada mes":DAYNAME[x][0].toUpperCase()+DAYNAME[x].slice(1)).join(", ");
@@ -773,18 +812,16 @@ const perTxt=p=>({Mensual:"por mes",Semanal:"por semana",Diaria:"por día","Por 
 
 function matches(p){
   if(!state.vencidas&&!active(p))return false;
-  if(!onDay(p,state.dia))return false;
-  if(state.tipo&&p.tipo!==state.tipo)return false;
-  if(state.emb&&!p.emSlugs.includes(state.emb)&&!atAll(p))return false;
+  if(!onDay(p,state.dia)||!mine(p)||!atEmb(p))return false;
   const q=state.q.trim().toLowerCase();
   if(q&&![...p.entidad,...p.emblemas,...p.afin,p.nota||""].join(" ").toLowerCase().includes(q))return false;
   return true;
 }
 
 function bestHTML(){
-  const list=PROMOS.filter(p=>active(p)&&onDay(p,state.dia)&&p.pct!=null&&(!state.tipo||p.tipo===state.tipo)&&(!state.emb||p.emSlugs.includes(state.emb)||atAll(p)))
+  const list=PROMOS.filter(p=>active(p)&&onDay(p,state.dia)&&p.pct!=null&&mine(p)&&atEmb(p))
     .sort((a,b)=>(b.mes??0)-(a.mes??0)||b.pct-a.pct).slice(0,4);
-  if(!list.length) return `<li class="nobest">No hay promos activas para ese día con estos filtros. Probá con otro día o con Todos.</li>`;
+  if(!list.length) return `<li class="nobest">${state.cards.length?"Ninguna de tus tarjetas tiene promo ese día. Probá con otro día o sumá otra tarjeta.":"No hay promos activas para ese día con estos filtros. Probá con otro día o con Todos."}</li>`;
   return list.map((p,i)=>`<li class="pick"><a href="#p${p.id}"><span class="rank">${i+1}</span>${plate(p.entidad[0])}<span class="who"><span class="nm">${esc(p.entidad.join(" · "))}</span><span class="em">${esc(p.emblemas.join(", "))}</span><span class="cap">${p.total!=null?"Hasta "+gs(p.total)+(perTxt(p)?" "+perTxt(p):""):"Sin tope informado"}</span></span><span class="pc">${p.pct}%</span></a></li>`).join("");
 }
 
@@ -800,19 +837,65 @@ function rowHTML(p){
     <dl class="money"><dt>Límite</dt><dd>${gs(p.limite)}</dd><dt>Tope</dt><dd>${gs(p.tope)}</dd><dt class="max">Máximo</dt><dd class="max">${gs(p.total)}</dd>${p.mes!=null&&p.mes!==p.total?`<dt>Por mes</dt><dd>≈ ${gs(p.mes)}</dd>`:""}</dl>
     <div class="side"><span class="estado e-${p.estado}">${p.estado[0].toUpperCase()+p.estado.slice(1)}</span>${p.hasta?`<span class="until">${p.estado==="vencida"?"Terminó":"Hasta"} el ${fdate(p.hasta)}</span>`:""}
       ${p.niveles?`<span class="lvl-note">Calculado con tu nivel ${state.nivel}</span>`:""}
-      <a class="src${src.k==="agg"?" agg":""}" href="${p.src}" target="_blank" rel="noopener">${src.k==="bases"?DOC_SVG:LINK_SVG}${src.t}</a></div>
+      <a class="src" href="${p.src}" target="_blank" rel="noopener">${src.k==="bases"?DOC_SVG:LINK_SVG}${src.t}</a></div>
   </article>`;
 }
 
+// ---- Estaciones
+let STATIONS=[],me=null,stLimit=20;
+const BRANDNAME=s=>s&&((LOGOS[s]&&LOGOS[s].name)||s);
+const km=(a,b,c,d)=>{const R=6371,r=Math.PI/180,x=(c-a)*r,y=(d-b)*r,h=Math.sin(x/2)**2+Math.cos(a*r)*Math.cos(c*r)*Math.sin(y/2)**2;return 2*R*Math.asin(Math.sqrt(h))};
+function stationPromo(st){
+  const d=state.dia==="todos"?null:state.dia;
+  const l=PROMOS.filter(p=>active(p)&&p.pct!=null&&mine(p)&&(!d||onDay(p,d))&&(atAll(p)||(st.s&&p.emSlugs.includes(st.s))))
+    .sort((a,b)=>(b.mes??0)-(a.mes??0)||b.pct-a.pct);
+  return l[0];
+}
+function renderStations(){
+  const q=$("st-q").value.trim().toLowerCase();
+  const list=$("st-list");
+  if(!STATIONS.length){list.innerHTML=`<div class="st-msg">Cargando estaciones…</div>`;return}
+  let rows=STATIONS.filter(s=>(!state.emb||s.s===state.emb)&&(!q||(s.n+" "+s.c+" "+(BRANDNAME(s.s)||"")).toLowerCase().includes(q)));
+  if(me) rows.forEach(s=>s.d=km(me.la,me.lo,s.la,s.lo));
+  if(me) rows.sort((a,b)=>a.d-b.d);
+  const emName=state.emb?(EMB.find(e=>e.s===state.emb)||{}).name:"";
+  $("st-sum").textContent=`${rows.length} estaciones${emName?" de "+emName:""}${me?", de la más cercana a la más lejana":""}`;
+  if(!me&&!q&&!state.emb){list.innerHTML=`<div class="st-msg">Tocá “Cerca de mí” para ver las estaciones más cercanas con su mejor promo, o buscá por nombre o ciudad. Podés filtrar por emblema arriba.</div>`;return}
+  if(!rows.length){list.innerHTML=`<div class="st-msg">No hay estaciones con esa búsqueda.</div>`;return}
+  const shown=rows.slice(0,stLimit);
+  list.innerHTML=shown.map(s=>{
+    const p=stationPromo(s);
+    const promo=p?`<div class="st-p"><b>${p.pct}%</b> con ${esc(p.entidad[0])}${p.dias.includes("todos")?"":" · "+esc(dayLabel(p.dias))}</div>`:`<div class="st-p" style="color:var(--muted)">Sin promo cargada para tus tarjetas</div>`;
+    return `<div class="st-row">${plate(BRANDNAME(s.s)||s.n,"",true)}<div><div class="st-n">${esc(s.n)}</div><div class="st-c">${esc(BRANDNAME(s.s)||"Sin emblema")}${s.c?" · "+esc(s.c):""}</div>${promo}</div>
+      <div class="st-d">${s.d!=null?`<span>${s.d<1?Math.round(s.d*1000)+" m":s.d.toFixed(1)+" km"}</span>`:""}<a class="go" href="https://www.google.com/maps/dir/?api=1&destination=${s.la},${s.lo}" target="_blank" rel="noopener">Cómo llegar</a></div></div>`}).join("")
+    +(rows.length>shown.length?`<button class="btn st-more" id="st-more" type="button">Ver ${Math.min(20,rows.length-shown.length)} más</button>`:"");
+  const m=$("st-more");if(m)m.onclick=()=>{stLimit+=20;renderStations()};
+}
+$("st-q").oninput=()=>{stLimit=20;renderStations()};
+$("near").onclick=()=>{
+  const b=$("near");
+  if(!navigator.geolocation){$("st-list").innerHTML=`<div class="st-msg">Tu navegador no permite obtener la ubicación. Buscá por nombre o ciudad.</div>`;return}
+  b.disabled=true;
+  navigator.geolocation.getCurrentPosition(p=>{me={la:p.coords.latitude,lo:p.coords.longitude};stLimit=20;b.disabled=false;renderStations()},
+    ()=>{b.disabled=false;$("st-list").innerHTML=`<div class="st-msg">No pudimos obtener tu ubicación. Revisá el permiso del navegador o buscá por nombre o ciudad.</div>`},{enableHighAccuracy:false,timeout:10000,maximumAge:300000});
+};
+fetch("stations.json").then(r=>r.json()).then(a=>{STATIONS=a.map(([la,lo,s,n,c])=>({la,lo,s,n,c}));renderStations()}).catch(()=>{$("st-list").innerHTML=`<div class="st-msg">No se pudo cargar el listado de estaciones.</div>`});
+
+// ---- Render
 function render(swap){
   compute();
   document.querySelectorAll(".day").forEach(b=>b.setAttribute("aria-pressed",b.dataset.d===state.dia));
-  document.querySelectorAll(".emb").forEach(b=>b.setAttribute("aria-pressed",b.dataset.e===state.emb));
-  document.querySelectorAll("#tipos button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.t===state.tipo));
+  document.querySelectorAll("#emblems .chip").forEach(b=>b.setAttribute("aria-pressed",b.dataset.e===state.emb));
+  document.querySelectorAll("#cards .chip").forEach(b=>b.setAttribute("aria-pressed",state.cards.includes(b.dataset.c)));
   document.querySelectorAll("#nivel button").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.n===state.nivel));
+  $("lvlrow").hidden=!state.cards.includes("ueno bank");
+  $("clear-cards").hidden=!state.cards.length;
+  $("sel-cards").textContent=state.cards.length?`${state.cards.length} ${state.cards.length===1?"elegida":"elegidas"}`:"Todas";
+  const emName=state.emb?(EMB.find(e=>e.s===state.emb)||{}).name:"";
+  $("sel-emb").textContent=emName||"Todas";
   $("sort").value=state.sort;$("vencidas").checked=state.vencidas;
-  const d=state.dia;
-  $("today-title").textContent=d==="todos"?"Las promos de toda la semana":d===todayCode?`Hoy ${DAYNAME[d]} conviene cargar con`:`El ${DAYNAME[d]} conviene cargar con`;
+  const d=state.dia,mis=state.cards.length?" tus tarjetas":"";
+  $("today-title").textContent=d==="todos"?`Las promos de toda la semana${state.cards.length?" con tus tarjetas":""}`:d===todayCode?`Hoy ${DAYNAME[d]} conviene cargar con${mis}`:`El ${DAYNAME[d]} conviene cargar con${mis}`;
   const best=$("best");
   const paint=()=>{best.innerHTML=bestHTML();best.classList.remove("swap")};
   if(swap&&!matchMedia("(prefers-reduced-motion: reduce)").matches){best.classList.add("swap");setTimeout(paint,120)}else paint();
@@ -820,10 +903,10 @@ function render(swap){
   const k=KEY[state.sort],dir=state.sort==="entidad"||state.sort==="dias"?1:-1;
   const list=PROMOS.filter(matches).sort((a,b)=>{const x=k(a),y=k(b);const r=typeof x==="string"?x.localeCompare(y,"es"):x-y;return r*dir||(b.mes??-1)-(a.mes??-1)});
   $("list").innerHTML=list.length?COLS+list.map(rowHTML).join(""):`<div class="empty">No hay promos con estos filtros.<br><button type="button" id="reset">Ver todas las promos</button></div>`;
-  const r=$("reset");if(r)r.onclick=()=>{Object.assign(state,{dia:"todos",tipo:"",emb:"",q:""});$("q").value="";render(true)};
-  const emName=state.emb?(EMB.find(e=>e.s===state.emb)||{}).name:"";
+  const r=$("reset");if(r)r.onclick=()=>{Object.assign(state,{dia:"todos",cards:[],emb:"",q:""});$("q").value="";render(true)};
   $("list-title").textContent=d==="todos"?"Todas las promos":`Promos del ${DAYNAME[d]}`;
   $("summary").textContent=`${list.length} ${list.length===1?"promo":"promos"}${emName?" en "+emName:""}${state.vencidas?", incluidas vencidas":""}`;
+  renderStations();
   save();
 }
 render();
