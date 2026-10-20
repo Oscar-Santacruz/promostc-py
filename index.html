@@ -1,0 +1,243 @@
+<title>promosTC</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: cartel de surtidor arriba (día de hoy + filtros), lista de promos debajo; tabla en escritorio, tarjetas en teléfono */
+:root{
+  --bg:#f3f5f4; --surface:#ffffff; --ink:#14201d; --muted:#5b6b66; --line:#d5dedb;
+  --petrol:#0e5b52; --petrol-soft:#e0eeeb; --amber:#b86a00; --amber-soft:#fbefd9;
+  --ok:#1c7c4a; --ok-soft:#dff2e7; --warn:#9a6400; --warn-soft:#fbf0d6; --off:#8a4b4b; --off-soft:#f5e3e3;
+  --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1514; --surface:#162120; --ink:#e4ecea; --muted:#93a39e; --line:#2a3836;
+  --petrol:#5cc3b4; --petrol-soft:#183431; --amber:#f2b04a; --amber-soft:#3a2c14;
+  --ok:#62cf93; --ok-soft:#173326; --warn:#e8b44f; --warn-soft:#382c12; --off:#e09a9a; --off-soft:#3a2121; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1514; --surface:#162120; --ink:#e4ecea; --muted:#93a39e; --line:#2a3836;
+  --petrol:#5cc3b4; --petrol-soft:#183431; --amber:#f2b04a; --amber-soft:#3a2c14;
+  --ok:#62cf93; --ok-soft:#173326; --warn:#e8b44f; --warn-soft:#382c12; --off:#e09a9a; --off-soft:#3a2121; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45}
+.wrap{max-width:1180px;margin:0 auto;padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:22px}
+header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(40px,7vw,60px);line-height:.9;margin:0;letter-spacing:.01em}
+h1 b{color:var(--amber);font-weight:700}
+.sub{color:var(--muted);margin:6px 0 0;max-width:60ch}
+.stamp{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.08em;font-size:14px;color:var(--muted);border:1px solid var(--line);padding:6px 10px;border-radius:4px}
+
+.days{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px}
+.day{font-family:var(--f-display);font-size:18px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;background:var(--surface);border:1px solid var(--line);color:var(--ink);border-radius:6px;padding:10px 4px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.day small{font-family:var(--f-body);font-size:11px;font-weight:500;color:var(--muted);letter-spacing:0;text-transform:none}
+.day[aria-pressed="true"]{background:var(--petrol);border-color:var(--petrol);color:var(--bg)}
+.day[aria-pressed="true"] small{color:var(--bg);opacity:.85}
+.day.today{box-shadow:inset 0 -3px 0 var(--amber)}
+.day:focus-visible,select:focus-visible,input:focus-visible,th button:focus-visible,label.chk:focus-within{outline:2px solid var(--amber);outline-offset:2px}
+
+.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.filters select,.filters input[type=search]{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 10px;min-width:0}
+.filters input[type=search]{flex:1 1 220px}
+label.chk{display:flex;gap:6px;align-items:center;color:var(--muted);font-size:14px;cursor:pointer}
+.count{margin-left:auto;color:var(--muted);font-size:14px}
+
+.tablebox{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:8px}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-display);font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);white-space:nowrap;background:var(--surface)}
+th button{all:unset;cursor:pointer}
+th button::after{content:"";margin-left:4px}
+th button[data-dir="asc"]::after{content:"▲"}
+th button[data-dir="desc"]::after{content:"▼"}
+tr:last-child td{border-bottom:0}
+td.num{text-align:right;white-space:nowrap}
+.ent{font-weight:600}
+.tipo{display:block;font-size:12px;color:var(--muted)}
+.pct{font-family:var(--f-display);font-weight:700;font-size:26px;line-height:1;color:var(--amber)}
+.pct small{font-size:14px;color:var(--muted);font-weight:500;display:block;margin-top:2px;font-family:var(--f-body)}
+.tot{font-weight:600}
+.tags{display:flex;flex-wrap:wrap;gap:4px}
+.tag{font-size:12px;padding:2px 7px;border-radius:999px;background:var(--petrol-soft);color:var(--ink);white-space:nowrap}
+.tag.em{background:var(--amber-soft)}
+.note{font-size:12.5px;color:var(--muted);margin-top:4px;max-width:44ch}
+.estado{font-size:12px;font-weight:600;padding:2px 8px;border-radius:4px;white-space:nowrap;display:inline-block}
+.e-vigente{background:var(--ok-soft);color:var(--ok)}
+.e-verificar{background:var(--warn-soft);color:var(--warn)}
+.e-vencida,.e-antigua{background:var(--off-soft);color:var(--off)}
+a{color:var(--petrol)}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+footer{color:var(--muted);font-size:13px;max-width:80ch;display:flex;flex-direction:column;gap:6px}
+
+@media (max-width:760px){
+  .days{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .count{margin-left:0;width:100%}
+  .tablebox{background:none;border:0;overflow:visible}
+  table,tbody,tr,td{display:block;width:100%}
+  thead{display:none}
+  tr{background:var(--surface);border:1px solid var(--line);border-radius:8px;margin-bottom:10px;padding:6px 0}
+  td{border:0;padding:6px 14px;display:grid;grid-template-columns:110px minmax(0,1fr);gap:8px}
+  td::before{content:attr(data-l);font-family:var(--f-display);text-transform:uppercase;letter-spacing:.05em;font-size:13px;color:var(--muted)}
+  td.num{text-align:left}
+}
+@media (prefers-reduced-motion:no-preference){.day{transition:background .15s,color .15s}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>promos<b>TC</b></h1>
+      <p class="sub">Reintegros en combustible con tarjetas de bancos, financieras y cooperativas en Paraguay. El reintegro máximo se calcula como el menor entre el % sobre el límite de compra y el tope declarado.</p>
+    </div>
+    <span class="stamp">Relevado 20/10/2026</span>
+  </header>
+
+  <div class="days" id="days" role="group" aria-label="Día de carga"></div>
+
+  <div class="filters">
+    <select id="f-tipo" aria-label="Tipo de entidad">
+      <option value="">Todas las entidades</option>
+      <option value="Banco">Bancos</option>
+      <option value="Financiera">Financieras</option>
+      <option value="Cooperativa">Cooperativas</option>
+    </select>
+    <select id="f-emblema" aria-label="Emblema"></select>
+    <input type="search" id="f-q" placeholder="Buscar entidad, tarjeta o estación" aria-label="Buscar">
+    <label class="chk"><input type="checkbox" id="f-vencidas"> Mostrar vencidas y antiguas</label>
+    <span class="count" id="count"></span>
+  </div>
+
+  <div class="tablebox">
+    <table>
+      <thead><tr>
+        <th><button data-k="entidad">Entidad</button></th>
+        <th>Emblemas</th>
+        <th><button data-k="dias">Días</button></th>
+        <th>Afinidades</th>
+        <th><button data-k="pct">% reintegro</button></th>
+        <th class="num"><button data-k="limite">Límite compra</button></th>
+        <th class="num"><button data-k="total">Reintegro máx.</button></th>
+        <th><button data-k="per">Periodicidad</button></th>
+        <th>Estado</th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="empty" id="empty" hidden>No hay promos con esos filtros.</div>
+  </div>
+
+  <footer>
+    <p>Fuentes: bases y condiciones de cada entidad, publicaciones en Instagram/Facebook de entidades y estaciones, y el agregador Benefix. Cada fila enlaza a su fuente.</p>
+    <p>Estado: <b>vigente</b> = fecha confirmada que cubre hoy; <b>verificar</b> = publicado en 2026 sin fecha de fin clara; <b>vencida</b> o <b>antigua</b> = ya terminó o es anterior a 2026. Confirmá siempre en la app o las bases antes de cargar.</p>
+  </footer>
+</div>
+
+<script>
+// ---- Datos: editá aquí. dias: lu ma mi ju vi sa do | "todos". pct = máximo. limite/tope en Gs. (null = no informado)
+const PROMOS = [
+  // Cooperativas
+  {entidad:["Cooperativa Ypacaraí"],tipo:"Cooperativa",emblemas:["Todas las estaciones"],dias:["mi"],afin:["Credicard","Visa Clásica","Mastercard Clásica","Mastercard Oro"],pct:20,pctTxt:"20%",limite:500000,tope:null,per:"Por vigencia",desde:"2026-10-07",hasta:"2026-10-28",nota:"Todos los miércoles de octubre.",src:"https://www.cooperativaypacarai.com.py/noticias/miercoles-de-combustible-167"},
+  {entidad:["Cooperativa Universitaria"],tipo:"Cooperativa",emblemas:["Energy"],dias:["todos"],afin:["Panal","Cabal","Mastercard","QR App Universitaria"],pct:20,pctTxt:"20% QR · 10% física",limite:500000,tope:100000,per:"Mensual",desde:"2026-07-15",hasta:"2026-09-30",nota:"Tope 100.000 con QR, 50.000 con tarjeta física. Buscar renovación desde octubre.",src:"https://www.universitaria.coop/assets_front/img/promos/bases-y-condiciones1784217351.pdf"},
+  {entidad:["Cooperativas con Cabal"],tipo:"Cooperativa",emblemas:["Petrosur"],dias:["todos"],afin:["Cabal crédito (Universitaria, Coomecipar, Medalla Milagrosa y otras adheridas)"],pct:8,pctTxt:"8% (5% Cabal genérica)",limite:null,tope:null,per:"Diaria",desde:"2026-07-31",hasta:null,nota:"Descuento en extracto de lunes a lunes. Lista completa de cooperativas en el post de Petrosur.",src:"https://www.facebook.com/petrosurpy/videos/descuento-en-todos-los-combustibles-todos-los-d%C3%ADaspagando-tus-cargas-con-tu-tarj/1443662876110253/"},
+  {entidad:["Cooperativa Mburicao"],tipo:"Cooperativa",emblemas:["Petrosur"],dias:["todos"],afin:["Cabal crédito"],pct:null,pctTxt:"No publicado",limite:null,tope:null,per:"—",desde:"2026-01-04",hasta:null,nota:"El post anuncia reintegros sin decir el porcentaje.",src:"https://www.instagram.com/p/DTFaq52jQIi/"},
+  {entidad:["Cooperativa Medalla Milagrosa"],tipo:"Cooperativa",emblemas:["Petrosur"],dias:["todos"],afin:["Cabal crédito"],pct:15,pctTxt:"3 cupones de 5%",limite:null,tope:null,per:"Diaria",desde:null,hasta:null,antigua:true,nota:"Hasta 15% por día y 10% en lubricantes. Post sin fecha visible.",src:"https://www.facebook.com/CoopMedallaPy/posts/carg%C3%A1-combustible-con-este-descuento-que-ten%C3%A9s-con-tus-tarjetas-de-cr%C3%A9dito-cabal/3730913106984984/"},
+  {entidad:["Cooperativa Coomecipar"],tipo:"Cooperativa",emblemas:["Petrosur"],dias:["todos"],afin:["Cabal crédito"],pct:10,pctTxt:"10% (15% martes)",limite:null,tope:null,per:"Diaria",desde:"2023-07-01",hasta:null,antigua:true,nota:"Posts de 2023–2024; no hay confirmación 2026.",src:"https://www.instagram.com/reel/Cwz-Rcmuwh2/"},
+
+  // Bancos
+  {entidad:["ueno bank"],tipo:"Banco",emblemas:["Copetrol","Petromax","Enex","Petrobras","Puma","Petrochaco","3MG"],dias:["todos"],afin:["Mastercard Dúo Clásica","Black","Albirroja"],pct:40,pctTxt:"10–40% según nivel",limite:null,tope:150000,per:"Semanal",desde:"2026-08-01",hasta:null,nota:"Nivel 1: 10% · 2: 15% · 3: 25% · 4: 30% · 5: 40%. Tope 150.000 en nivel 5.",src:"https://www.ueno.com.py/beneficio-byc/ago2026/combustibles/"},
+  {entidad:["ueno bank"],tipo:"Banco",emblemas:["Petropar"],dias:["todos"],afin:["Mastercard Dúo Clásica","Black","Albirroja"],pct:40,pctTxt:"10–40% según nivel",limite:null,tope:240000,per:"Mensual",desde:null,hasta:null,nota:"Escalonado por nivel de cuenta; tope 240.000 en nivel 5.",src:"https://www.benefix.com.py/descuentos/combustible"},
+  {entidad:["Banco GNB"],tipo:"Banco",emblemas:["Copetrol"],dias:["lu"],afin:["Mastercard Metalcard","Black","Black Premier","QR app Copetrol Vamos"],pct:30,pctTxt:"30% (25% + 5% QR)",limite:1000000,tope:null,per:"Mensual",desde:"2026-07-06",hasta:"2026-12-28",nota:"Clásica y Oro: 15% + 5% QR = 20%. No aplica débito ni Visa.",src:"https://www.beneficiosbancognb.com.py/beneficios/148/"},
+  {entidad:["Banco GNB"],tipo:"Banco",emblemas:["Petrobras (app Premmia)"],dias:["mi"],afin:["Mastercard GNB"],pct:20,pctTxt:"20%",limite:500000,tope:100000,per:"Diaria",desde:null,hasta:null,nota:"Tope por día de promoción. Las últimas bases encontradas vencían en 06/2025.",src:"https://www.petrobrasdistribucion.com.py/gnb/"},
+  {entidad:["Banco GNB"],tipo:"Banco",emblemas:["Petrochaco"],dias:["ma"],afin:["Tarjetas de crédito GNB"],pct:20,pctTxt:"20%",limite:null,tope:null,per:"—",desde:null,hasta:null,nota:"",src:"https://www.beneficiosbancognb.com.py/beneficios/148/"},
+  {entidad:["Banco GNB"],tipo:"Banco",emblemas:["Petrosur"],dias:["vi"],afin:["Tarjetas de crédito GNB"],pct:20,pctTxt:"20%",limite:null,tope:null,per:"—",desde:null,hasta:null,nota:"",src:"https://www.beneficiosbancognb.com.py/beneficios/148/"},
+  {entidad:["Banco Atlas"],tipo:"Banco",emblemas:["Petrobras (app Premmia)"],dias:["ma"],afin:["TC Premium 25%","Clásica y Oro 20%"],pct:25,pctTxt:"20–25%",limite:1000000,tope:null,per:"Mensual",desde:null,hasta:"2026-12-31",nota:"Pago solo desde la app Petrobras Premmia.",src:"https://www.benefix.com.py/descuentos/combustible"},
+  {entidad:["Banco Atlas","Banco Continental","Banco GNB","Financiera Paraguayo Japonesa"],tipo:"Banco",emblemas:["Petrosur"],dias:["ma"],afin:["Todas las TC 20%","Mastercard Black, Visa Infinite, Signature 25%"],pct:25,pctTxt:"20–25%",limite:1000000,tope:null,per:"Mensual",desde:null,hasta:null,nota:"",src:"https://www.benefix.com.py/descuentos/combustible"},
+  {entidad:["Banco Familiar","Banco Atlas"],tipo:"Banco",emblemas:["Estaciones adheridas","Petropar Capitán Miranda"],dias:["ma"],afin:["TC Familiar","Mastercard Black, Visa Infinite, Signature 25%"],pct:25,pctTxt:"20–25%",limite:1000000,tope:null,per:"Mensual",desde:null,hasta:"2026-12-31",nota:"Límite 1.000.000 para Black/Infinite/Signature.",src:"https://www.familiar.com.py/promociones-tarjetas"},
+  {entidad:["Itaú"],tipo:"Banco",emblemas:["Shell"],dias:["lu"],afin:["TC Clásica","Oro","Premium"],pct:20,pctTxt:"20%",limite:null,tope:null,per:"—",desde:"2026-02-23",hasta:"2026-12-31",nota:"Tope para Clásica no visible en la fuente.",src:"https://www.benefix.com.py/descuentos/combustible"},
+  {entidad:["Itaú","Interfisa","Financiera FIC"],tipo:"Banco",emblemas:["Shell"],dias:["ver bases"],afin:["Red Infonet"],pct:30,pctTxt:"30%",limite:666667,tope:null,per:"Mensual",desde:null,hasta:null,nota:"Reintegro en extracto.",src:"https://www.benefix.com.py/descuentos/combustible"},
+  {entidad:["Banco Continental"],tipo:"Banco",emblemas:["Energy"],dias:["vi"],afin:["Privilege 25%","Clásica, Oro, Black, Infinite 20%","POS Dinelco"],pct:25,pctTxt:"20–25%",limite:500000,tope:null,per:"Semanal",desde:null,hasta:null,nota:"Solo POS Dinelco, compras presenciales.",src:"https://www.benefix.com.py/descuentos/combustible"},
+  {entidad:["Banco Continental"],tipo:"Banco",emblemas:["HN","Enercon"],dias:["vi"],afin:["TC Continental","POS Dinelco"],pct:20,pctTxt:"20%",limite:500000,tope:null,per:"Semanal",desde:null,hasta:null,nota:"",src:"https://www.benefix.com.py/descuentos/combustible"},
+  {entidad:["Banco Continental"],tipo:"Banco",emblemas:["Ecop"],dias:["vi"],afin:["TC Continental","POS Dinelco"],pct:15,pctTxt:"15%",limite:500000,tope:null,per:"Semanal",desde:null,hasta:null,nota:"",src:"https://www.benefix.com.py/descuentos/combustible"},
+  {entidad:["Banco Continental"],tipo:"Banco",emblemas:["Ultra"],dias:["vi"],afin:["TC Continental","POS Dinelco"],pct:10,pctTxt:"10%",limite:500000,tope:null,per:"Semanal",desde:null,hasta:null,nota:"",src:"https://www.benefix.com.py/descuentos/combustible"},
+  {entidad:["BNF","Banco Continental","Financiera Paraguayo Japonesa"],tipo:"Banco",emblemas:["Compasa"],dias:["mi"],afin:["TC","app Copetrol Vamos"],pct:20,pctTxt:"20%",limite:1000000,tope:200000,per:"Mensual",desde:null,hasta:null,nota:"",src:"https://www.benefix.com.py/descuentos/combustible"},
+  {entidad:["Sudameris"],tipo:"Banco",emblemas:["Ecop (varias sucursales)"],dias:["ju"],afin:["Mastercard y Visa Sudameris"],pct:20,pctTxt:"20%",limite:1000000,tope:null,per:"Mensual",desde:null,hasta:null,nota:"Algunas Ecop (ej. Colonias Unidas) solo el primer jueves del mes.",src:"https://www.benefix.com.py/descuentos/combustible"},
+  {entidad:["Sudameris"],tipo:"Banco",emblemas:["Enex (app Sudameris)"],dias:["lu"],afin:["Mastercard y Visa Sudameris"],pct:20,pctTxt:"20%",limite:600000,tope:null,per:"Mensual",desde:null,hasta:null,nota:"Pago desde la app Sudameris.",src:"https://www.instagram.com/p/DX6TPV6j07K/"},
+  {entidad:["Sudameris"],tipo:"Banco",emblemas:["Copetrol (Mariano, Villa Morra, KM2)","Tacuara","otras adheridas"],dias:["ver bases"],afin:["TC física, POS Infonet"],pct:20,pctTxt:"20%",limite:600000,tope:null,per:"Mensual",desde:null,hasta:null,nota:"Tarjeta presente en POS Bancard.",src:"https://www.benefix.com.py/descuentos/combustible"},
+  {entidad:["Sudameris"],tipo:"Banco",emblemas:["Shell (Grupo Laso)"],dias:["lu"],afin:["Mastercard y Visa Sudameris"],pct:15,pctTxt:"15%",limite:1000000,tope:null,per:"Mensual",desde:null,hasta:null,nota:"",src:"https://www.benefix.com.py/descuentos/combustible"},
+  {entidad:["Interfisa"],tipo:"Banco",emblemas:["Alces Group"],dias:["mi"],afin:["TC Interfisa"],pct:20,pctTxt:"20%",limite:null,tope:200000,per:"—",desde:null,hasta:null,nota:"",src:"https://www.benefix.com.py/descuentos/combustible"},
+
+  // Financieras
+  {entidad:["Financiera Paraguayo Japonesa"],tipo:"Financiera",emblemas:["Copetrol"],dias:["mi"],afin:["TC PJ"],pct:20,pctTxt:"20%",limite:null,tope:null,per:"—",desde:"2026-02-01",hasta:null,nota:"",src:"https://www.instagram.com/p/DU9DZh5iZVQ/"},
+  {entidad:["Financiera Paraguayo Japonesa"],tipo:"Financiera",emblemas:["Petrochaco"],dias:["mi"],afin:["TC PJ"],pct:20,pctTxt:"20%",limite:null,tope:null,per:"—",desde:null,hasta:null,nota:"",src:"https://www.benefix.com.py/descuentos/combustible"}
+];
+
+const DAYS=[["todos","Todos"],["lu","Lun"],["ma","Mar"],["mi","Mié"],["ju","Jue"],["vi","Vie"],["sa","Sáb"],["do","Dom"]];
+const TODAY=new Date();const TODAY_ISO=TODAY.toISOString().slice(0,10);
+const todayCode=["do","lu","ma","mi","ju","vi","sa"][TODAY.getDay()];
+const gs=n=>n==null?"—":"Gs. "+n.toLocaleString("es-PY");
+
+PROMOS.forEach(p=>{
+  const byLimit=(p.limite!=null&&p.pct!=null)?Math.round(p.limite*p.pct/100):null;
+  p.total=byLimit!=null&&p.tope!=null?Math.min(byLimit,p.tope):(byLimit??p.tope);
+  p.estado=p.antigua?"antigua":(p.hasta&&p.hasta<TODAY_ISO)?"vencida":(p.hasta&&(!p.desde||p.desde<=TODAY_ISO))?"vigente":"verificar";
+});
+
+let state={dia:"todos",tipo:"",emblema:"",q:"",vencidas:false,sort:"total",dir:"desc"};
+try{const s=JSON.parse(localStorage.getItem("promostc")||"{}");Object.assign(state,s)}catch(e){}
+const save=()=>{try{localStorage.setItem("promostc",JSON.stringify(state))}catch(e){}};
+
+const daysEl=document.getElementById("days");
+DAYS.forEach(([c,l])=>{
+  const b=document.createElement("button");b.className="day"+(c===todayCode?" today":"");b.dataset.d=c;
+  b.innerHTML=l+"<small>"+(c===todayCode?"hoy":c==="todos"?"semana":"&nbsp;")+"</small>";
+  b.onclick=()=>{state.dia=c;render()};daysEl.appendChild(b);
+});
+
+const emSel=document.getElementById("f-emblema");
+const emblemas=[...new Set(PROMOS.flatMap(p=>p.emblemas.map(e=>e.split(" (")[0])))].sort((a,b)=>a.localeCompare(b,"es"));
+emSel.innerHTML='<option value="">Todos los emblemas</option>'+emblemas.map(e=>`<option>${e}</option>`).join("");
+
+const $=id=>document.getElementById(id);
+$("f-tipo").onchange=e=>{state.tipo=e.target.value;render()};
+emSel.onchange=e=>{state.emblema=e.target.value;render()};
+$("f-q").oninput=e=>{state.q=e.target.value;render()};
+$("f-vencidas").onchange=e=>{state.vencidas=e.target.checked;render()};
+document.querySelectorAll("th button").forEach(b=>b.onclick=()=>{
+  const k=b.dataset.k;state.dir=state.sort===k&&state.dir==="desc"?"asc":"desc";state.sort=k;render()});
+
+const DAYORDER={todos:0,lu:1,ma:2,mi:3,ju:4,vi:5,sa:6,do:7,"ver bases":8};
+const dayLabel=d=>d.map(x=>x==="todos"?"Todos los días":x==="ver bases"?"Ver bases":DAYS.find(y=>y[0]===x)[1]).join(", ");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function render(){
+  document.querySelectorAll(".day").forEach(b=>b.setAttribute("aria-pressed",b.dataset.d===state.dia));
+  $("f-tipo").value=state.tipo;emSel.value=state.emblema;$("f-q").value=state.q;$("f-vencidas").checked=state.vencidas;
+  document.querySelectorAll("th button").forEach(b=>b.dataset.dir=b.dataset.k===state.sort?state.dir:"");
+  const q=state.q.trim().toLowerCase();
+  let list=PROMOS.filter(p=>{
+    if(!state.vencidas&&(p.estado==="vencida"||p.estado==="antigua"))return false;
+    if(state.dia!=="todos"&&!(p.dias.includes(state.dia)||p.dias.includes("todos")))return false;
+    if(state.tipo&&p.tipo!==state.tipo)return false;
+    if(state.emblema&&!p.emblemas.some(e=>e.startsWith(state.emblema)))return false;
+    if(q&&![...p.entidad,...p.emblemas,...p.afin,p.nota].join(" ").toLowerCase().includes(q))return false;
+    return true;
+  });
+  const key={entidad:p=>p.entidad[0],dias:p=>DAYORDER[p.dias[0]]??9,pct:p=>p.pct??-1,limite:p=>p.limite??-1,total:p=>p.total??-1,per:p=>p.per}[state.sort];
+  list.sort((a,b)=>{const x=key(a),y=key(b);const r=typeof x==="string"?x.localeCompare(y,"es"):x-y;return state.dir==="asc"?r:-r});
+  $("rows").innerHTML=list.map(p=>`<tr>
+    <td data-l="Entidad"><div><span class="ent">${p.entidad.map(esc).join(" · ")}</span><span class="tipo">${p.tipo}</span>${p.nota?`<div class="note">${esc(p.nota)}</div>`:""}</div></td>
+    <td data-l="Emblemas"><div class="tags">${p.emblemas.map(e=>`<span class="tag em">${esc(e)}</span>`).join("")}</div></td>
+    <td data-l="Días">${dayLabel(p.dias)}</td>
+    <td data-l="Afinidades"><div class="tags">${p.afin.map(e=>`<span class="tag">${esc(e)}</span>`).join("")}</div></td>
+    <td data-l="% reintegro"><div class="pct">${p.pct!=null?p.pct+"%":"—"}${p.pctTxt&&p.pctTxt!==p.pct+"%"?`<small>${esc(p.pctTxt)}</small>`:""}</div></td>
+    <td data-l="Límite compra" class="num">${gs(p.limite)}</td>
+    <td data-l="Reintegro máx." class="num tot">${gs(p.total)}</td>
+    <td data-l="Periodicidad">${p.per}</td>
+    <td data-l="Estado"><div><span class="estado e-${p.estado}">${p.estado}</span>${p.hasta?`<div class="note">hasta ${p.hasta.split("-").reverse().join("/")}</div>`:""}<div class="note"><a href="${p.src}" target="_blank" rel="noopener">Fuente</a></div></div></td>
+  </tr>`).join("");
+  $("empty").hidden=list.length>0;
+  $("count").textContent=list.length+" de "+PROMOS.length+" promos";
+  save();
+}
+render();
+</script>
