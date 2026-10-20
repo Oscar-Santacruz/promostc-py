@@ -121,6 +121,16 @@ button{font:inherit;color:inherit;cursor:pointer}
 .day:disabled{opacity:.35;cursor:default}
 .day:disabled:hover{color:var(--muted)}
 .hint{margin:0;font-size:13px;color:var(--muted)}
+.cond summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--petrol);min-height:32px;display:flex;align-items:center;list-style:none}
+.cond summary::-webkit-details-marker{display:none}
+.cond summary::after{content:"";width:6px;height:6px;margin-left:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px)}
+.cond[open] summary::after{transform:rotate(225deg)}
+.netcol{display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start}
+.money dt{white-space:nowrap}
+.money dd{min-width:0}
+.money small{font-weight:400;color:var(--muted);font-size:12px}
+.money dd small{display:block;text-align:right}
+.money dd.max small{display:block;text-align:right}
 .tiers{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:2px;font-size:13px;color:var(--muted)}
 .tiers b{font:700 15px/1 var(--fig);color:var(--amber)}
 .net-l{font-size:12px;color:var(--muted);align-self:center}
@@ -149,7 +159,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .listhead h2{margin:0;font-size:18px;font-weight:700}
 .listhead p{margin:0;font-size:13px;color:var(--muted)}
 .list{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);overflow:hidden}
-.cols,.promo{display:grid;grid-template-columns:minmax(0,2.4fr) minmax(0,1.5fr) minmax(0,1fr) 84px minmax(0,1.45fr) minmax(0,1.25fr);gap:16px;padding:0 16px}
+.cols,.promo{display:grid;grid-template-columns:minmax(0,2.3fr) minmax(0,1.4fr) minmax(0,1.2fr) 74px minmax(0,1.75fr) minmax(0,1.15fr);gap:16px;padding:0 16px}
 .cols{min-height:38px;align-items:center;font-size:12px;color:var(--muted);border-bottom:1px solid var(--border)}
 .cols .r{text-align:right}
 .promo{padding-block:14px;border-top:1px solid var(--rule);align-items:start}
@@ -166,10 +176,10 @@ button{font:inherit;color:inherit;cursor:pointer}
 .ems{display:flex;flex-direction:column;gap:6px;min-width:0}
 .em-i{display:flex;align-items:center;gap:8px;font-size:14px;min-width:0}
 .em-i span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.dias{font-size:14px;font-weight:500}
+.dias{font-size:14px;font-weight:500;display:grid;gap:8px;align-content:start}
 .dias small{display:block;font-weight:400;color:var(--muted);font-size:12px}
 .pct{font:700 30px/1 var(--fig);color:var(--amber);text-align:right}
-.pct small{display:block;font:500 12px/1.3 var(--font);color:var(--muted);margin-top:4px}
+.pct small{max-width:9.5rem;margin-left:auto;display:block;font:500 12px/1.3 var(--font);color:var(--muted);margin-top:4px}
 .money{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;margin:0;font-size:13px;color:var(--muted);align-content:start}
 .money dd{margin:0;text-align:right;color:var(--text);white-space:nowrap}
 .money .max{font-weight:700;color:var(--text);font-size:14px}
@@ -209,7 +219,7 @@ footer p{margin:0;text-wrap:pretty}
   .cols{display:none}
   .promo{grid-template-columns:minmax(0,1fr) auto;gap:10px 14px;padding-inline:14px}
   .pct{grid-column:2;grid-row:1}
-  .ems,.dias,.money,.side{grid-column:1 / -1}
+  .ems,.dias,.netcol,.money,.side{grid-column:1 / -1}
   .ems{flex-direction:row;flex-wrap:wrap;gap:6px 14px}
   .money{grid-template-columns:repeat(3,auto minmax(0,1fr));gap:2px 8px}
   .side{flex-direction:row;flex-wrap:wrap;align-items:center;gap:6px 12px}
@@ -233,6 +243,14 @@ footer p{margin:0;text-wrap:pretty}
 .dot{width:12px;height:12px;border-radius:50%;background:#8a9490;border:2px solid #fff;outline:1px solid var(--control);display:inline-block}
 .dot.hot{background:#d98a0b;width:14px;height:14px}
 .mapbox{height:min(62vh,480px);min-height:340px;border:1px solid var(--border);border-radius:var(--r-card);overflow:hidden;background:#dfe6e3;position:relative;z-index:0}
+.lmw{background:none;border:0}
+.lm{position:relative;width:36px;height:36px;border-radius:50%;background:#fff;border:3px solid #8a9490;box-shadow:0 1px 4px rgba(0,0,0,.35);display:grid;place-items:center}
+.lm.hot{border-color:#d98a0b}
+.leaflet-container .lm img{width:30px;height:30px;max-width:30px!important;max-height:30px!important;object-fit:contain;border-radius:50%;padding:0}
+.lm .ico{width:18px;height:18px;color:#66716d}
+.lm .mono2{font:700 13px/1 var(--fig);color:#1b2623}
+.lm b{position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);background:#d98a0b;color:#fff;font:700 11px/1 var(--fig);padding:2px 5px;border-radius:9px;white-space:nowrap;border:1px solid #fff}
+.lg-hint{margin-left:auto}
 .mapnote{margin:0;font-size:13px;color:var(--muted)}
 .mapnote[hidden]{display:none}
 .leaflet-container{font-family:var(--font)}
@@ -310,7 +328,7 @@ footer p{margin:0;text-wrap:pretty}
       <label class="search"><svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="sr">Buscar estación</span><input type="search" id="st-q" placeholder="Buscar por nombre o ciudad"></label>
       <button class="btn pri" id="near" type="button"><svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg>Cerca de mí</button>
     </div>
-    <div class="legend" id="legend"><span><i class="dot hot"></i><span id="lg-hot">Con promo para tus tarjetas</span></span><span><i class="dot"></i>Sin promo cargada</span></div>
+    <div class="legend" id="legend"><span><i class="dot hot"></i><span id="lg-hot">Con promo para tus tarjetas</span></span><span><i class="dot"></i>Sin promo cargada</span><span class="lg-hint">Acercá el mapa para ver el logo de cada estación</span></div>
     <div class="mapbox" id="map" role="region" aria-label="Mapa de estaciones"></div>
     <p class="mapnote" id="mapnote" hidden>El mapa base no se carga en esta vista previa. Los puntos sí se ven. Abrí <a href="https://promostc.onrender.com" target="_blank" rel="noopener">promostc.onrender.com</a> para ver el mapa completo.</p>
     <div class="list" id="st-list"></div>
@@ -349,12 +367,11 @@ const PROMOS = [
 
   // Bancos
   {entidad:["ueno bank"],pos:["Upay","Bancard"],tipo:"Banco",emblemas:["Petrobras (app Premmia)","Copetrol","Enex","Petrochaco","3MG","Puma (solo red upay)","Petromax"],dias:["todos"],afin:["Mastercard Dúo Clásica","Black","Albirroja"],pct:40,pctTxt:"40% en nivel 5",limite:150000,tope:60000,per:"Semanal",desde:"2026-10-01",hasta:"2026-10-31",niveles:[[10,25000,2500],[15,50000,7500],[25,75000,18750],[30,125000,37500],[40,150000,60000]],nota:"El % y el tope dependen de tu nivel en ueno (lo ves en la app, en Beneficios). El tope de compra se renueva cada semana.",src:"https://www.ueno.com.py/wp-content/uploads/2026/09/Beneficio-de-Reintegro-COMBUSTIBLES-_-OCT-2026v4.pdf"},
-  {entidad:["ueno bank"],pos:["Upay"],tipo:"Banco",emblemas:["Petropar"],dias:["todos"],afin:["Mastercard Dúo Clásica","Black","Albirroja","app Petropar"],pct:40,pctTxt:"40% en nivel 5",limite:600000,tope:240000,per:"Por vigencia",desde:"2026-10-01",hasta:"2026-10-31",niveles:[[10,100000,10000],[15,200000,30000],[25,300000,75000],[30,500000,150000],[40,600000,240000]],nota:"El % y el tope dependen de tu nivel en ueno. Tarjeta física o Apple/Google Pay en POS upay, o carga desde la app Petropar; no vale QR.",src:"https://www.ueno.com.py/wp-content/uploads/2026/09/Beneficio-de-Reintegro-Petropar-_-OCT-2026v3.pdf"},
+  {entidad:["ueno bank"],pos:["Upay"],tipo:"Banco",emblemas:["Petropar"],dias:["todos"],afin:["Mastercard Dúo Clásica","Black","Albirroja","app Petropar"],pct:40,pctTxt:"40% en nivel 5",limite:600000,tope:240000,per:"Por vigencia",desde:"2026-10-01",hasta:"2026-10-31",niveles:[[10,100000,10000],[15,200000,30000],[25,300000,75000],[30,500000,150000],[40,600000,240000]],nota:"El % y el tope dependen de tu nivel en ueno. Tarjeta física o Apple/Google Pay en POS upay, o carga desde la app Petropar; no vale QR. Vale en las estaciones Petropar de las bases (193 con POS Upay y 23 para pagar en la app), que son casi toda la red.",src:"https://www.ueno.com.py/wp-content/uploads/2026/09/Beneficio-de-Reintegro-Petropar-_-OCT-2026v3.pdf"},
 
   // Financieras
   {entidad:["BNF"],pos:["Bancard"],tipo:"Banco",emblemas:["Puma Energy","Compasa","Copetrol","Petrochaco","3MG"],dias:["mi"],afin:["Visa Clásica","Visa Oro","Visa Platinum"],pct:20,pctTxt:"20%",limite:1000000,tope:200000,per:"Mensual",desde:"2026-10-07",hasta:"2026-10-28",nota:"Solo crédito Visa BNF por POS Bancard o app Copetrol Vamos. El tope de compra es unificado por marca de estación. Excluye débito y compras en cuotas. Solo estaciones del listado de las bases.",src:"https://www.bnf.gov.py/uploads/Promocion_Reintegro_Estaciones_de_Servicio_2026_OCT_4d8595ce5f.pdf"},
   {entidad:["Itaú"],pos:["Bancard"],tipo:"Banco",emblemas:["Shell"],dias:["lu"],afin:["Clásica","Oro","Premium"],tiers:[{t:"Clásica",pct:20,limite:150000,tope:null},{t:"Oro y Premium (Platinum, Black)",pct:20,limite:500000,tope:null}],pct:20,pctTxt:"20%",limite:500000,tope:null,per:"Mensual",desde:"2026-02-23",hasta:"2026-12-31",nota:"Los topes son de compra por mes y por cliente (titular y adicional comparten). Solo crédito por POS de Bancard; sin prepagas. No aplica a Personal Bank.",src:"https://www.itau.com.py/beneficios2/Detalle?b=16914&c=31291"},
-  {entidad:["Banco Continental"],tipo:"Banco",emblemas:["Estaciones adheridas (ver bases)"],dias:["vi"],afin:["Tarjetas de crédito Continental","Privilege +5%"],pct:25,pctTxt:"10%, 15% o 20% según estación · +5% con Privilege",limite:null,tope:null,per:"—",desde:null,hasta:null,nota:"Viernes de combustible de la guía oficial del banco (19/10/2026): 20%, 15% o 10% según la estación y 5% más con la tarjeta Privilege. La guía no desglosa por estación ni dice la red del POS (solo \"Exclusivo POS\"). Los límites están en las historias de @bcontinentalpy o al 021 419 3000.",src:"https://www.bancontinental.com.py/api/uploads/Guia_de_Beneficios_b7bd15d6d6.pdf"},
   {entidad:["Banco Familiar"],pos:["Bancard"],tipo:"Banco",emblemas:["Petropar Capitán Miranda","Copetrol Caaguazú","Petromax Campo 9","Petropar Santaní"],dias:["ma"],afin:["Visa y Mastercard Clásica","Oro","Platinum","Positiva Bancardcheck"],pct:20,pctTxt:"20%",limite:800000,tope:null,per:"—",desde:"2026-01-06",hasta:"2026-12-29",nota:"Solo 4 estaciones. Límite de compra Gs. 800.000 en Petropar Capitán Miranda y Gs. 500.000 en las otras tres. Las bases no fijan tope de reintegro. Solo red Bancard.",src:"https://cdn.prod.website-files.com/67dc13c0080579f362360a31/6ac00f7144fe963f1ae11a2b_Bases%20y%20Condiciones%20Combustible.pdf"},
   {entidad:["Bancop"],pos:["Bancard"],tipo:"Banco",emblemas:["Puma Energy"],dias:["lu"],afin:["Visa Clásica","Visa Oro","Visa Infinite","Pro Rural"],pct:15,pctTxt:"15%",limite:800000,tope:120000,per:"Mensual",desde:"2026-07-01",hasta:"2026-12-31",nota:"Tope de reintegro por tarjeta y por mes. Tarjeta física o QR por POS Infonet. Excluye Gourmet, prepagas, empresariales y afinidad ARP. Solo estaciones Puma del listado de las bases.",src:"https://www.bancop.com.py/public/4fc0e1655a112c36de12583163a94a18.pdf"},
   {entidad:["Bancop"],pos:["Bancard"],tipo:"Banco",emblemas:["Ecop"],dias:["mi"],afin:["Bancardcheck","Visa Clásica","Visa Oro","Visa Infinite","Pro Rural"],pct:20,pctTxt:"20%",limite:null,tope:150000,per:"Mensual",desde:"2026-01-21",hasta:"2026-12-31",nota:"Tope de reintegro por tarjeta y por mes. Solo 14 estaciones Ecop de Colonias Unidas del listado. POS Infonet. No acumulable.",src:"https://www.bancop.com.py/public/a8aa476a6b4a5bd4e08c70c4a04c3b02.pdf"},
@@ -366,6 +383,20 @@ const PROMOS = [
   {entidad:["Banco GNB"],via:"Solo app Premmia",tipo:"Banco",emblemas:["Petrobras (app Premmia)"],dias:["mi"],afin:["Mastercard Clásica","Oro","Black","Black Premier","Metalcard Premier"],pct:20,pctTxt:"20%",limite:500000,tope:100000,per:"Semanal",desde:"2026-07-01",hasta:"2026-12-30",nota:"Solo pagando desde la app Petrobras Premmia. Excluye diésel Euro 5. El tope de reintegro no figura en las bases: Gs. 100.000 sale de 20% sobre la compra máxima.",src:"https://www.beneficiosbancognb.com.py/imagenes/4261_bases-y-condiciones-petrobras.pdf"},
   {entidad:["Solar Banco"],pos:["Bancard"],via:"App Copetrol",tipo:"Banco",emblemas:["Copetrol"],dias:["ju"],afin:["Clásica","Oro","Premium"],tiers:[{t:"Clásica",pct:15,limite:500000,tope:null},{t:"Oro",pct:15,limite:700000,tope:null},{t:"Premium (Infinite y Black)",pct:25,limite:1000000,tope:null}],pct:25,pctTxt:"15% · 25% Premium",limite:1000000,tope:null,per:"Mensual",desde:"2026-01-01",hasta:"2026-12-31",nota:"Todos los jueves. Los límites son de compra por mes y por cuenta (titular y adicionales). Equivalencia Premium = Infinite y Black según el texto de las bases. Solo POS Infonet y app Copetrol. 60 estaciones Copetrol.",src:"https://api.solar.com.py/documents/460/Copetrol_S.A_Bases_y_condiciones_2026_V02.docx_5GQaBvW.pdf"},
   {entidad:["Zeta Banco"],via:"App Mi Enex",tipo:"Banco",emblemas:["Enex"],dias:["sa"],afin:["Visa Signature","Mastercard Black","Visa Oro","Visa Clásica"],tiers:[{t:"Visa Signature y Mastercard Black",pct:20,limite:1000000,tope:200000},{t:"Visa Oro",pct:20,limite:500000,tope:100000},{t:"Visa Clásica",pct:20,limite:250000,tope:50000}],pct:20,pctTxt:"20%",limite:1000000,tope:200000,per:"Mensual",desde:"2026-10-03",hasta:"2026-12-31",nota:"Todos los sábados y solo pagando desde la app Mi Enex con la tarjeta Zeta registrada. No vale por POS ni QR. 33 estaciones Enex habilitadas.",src:"https://www.zbanco.com.py/uploads/7a92b66f-9c9d-4d2f-96ff-a2ba148123aa.pdf"},
+  {entidad:["Banco Continental"],pos:["Dinelco"],tipo:"Banco",emblemas:["Petrobras"],dias:["vi"],afin:["Privilege", "Dinelco, Clásica, Oro, Black e Infinite"],tiers:[{t:"Privilege",pct:25,limite:500000,tope:null},{t:"Dinelco, Clásica, Oro, Black e Infinite",pct:20,limite:500000,tope:null}],pct:25,pctTxt:"25% Privilege · 20% resto",limite:500000,tope:null,per:"Semanal",desde:null,hasta:"2027-09-10",nota:"No aplica en la app del emblema ni en POS virtual. Límite de compra semanal por cuenta de tarjeta, compartido entre todas las estaciones adheridas del emblema. Solo presencial por POS físico. No participan prepagas, Gourmet ni Cabal. No acumulable. Bases en Club Continental, rubro Estaciones de Servicios.",src:"https://www.bancontinental.com.py/#/club-continental"},
+  {entidad:["Banco Continental"],pos:["Dinelco"],tipo:"Banco",emblemas:["Copetrol"],dias:["vi"],afin:["Privilege", "Dinelco, Clásica, Oro, Black e Infinite"],tiers:[{t:"Privilege",pct:25,limite:500000,tope:null},{t:"Dinelco, Clásica, Oro, Black e Infinite",pct:20,limite:500000,tope:null}],pct:25,pctTxt:"25% Privilege · 20% resto",limite:500000,tope:null,per:"Semanal",desde:null,hasta:"2026-12-31",nota:"Tarjeta física o QR. No aplica en la app del emblema ni en POS virtual. Límite de compra semanal por cuenta de tarjeta, compartido entre todas las estaciones adheridas del emblema. Solo presencial por POS físico. No participan prepagas, Gourmet ni Cabal. No acumulable. Bases en Club Continental, rubro Estaciones de Servicios.",src:"https://www.bancontinental.com.py/#/club-continental"},
+  {entidad:["Banco Continental"],pos:["Dinelco"],tipo:"Banco",emblemas:["Energy"],dias:["vi"],afin:["Privilege", "Dinelco, Clásica, Oro, Black e Infinite"],tiers:[{t:"Privilege",pct:25,limite:500000,tope:null},{t:"Dinelco, Clásica, Oro, Black e Infinite",pct:20,limite:500000,tope:null}],pct:25,pctTxt:"25% Privilege · 20% resto",limite:500000,tope:null,per:"Semanal",desde:null,hasta:"2027-03-12",nota:"Límite de compra semanal por cuenta de tarjeta, compartido entre todas las estaciones adheridas del emblema. Solo presencial por POS físico. No participan prepagas, Gourmet ni Cabal. No acumulable. Bases en Club Continental, rubro Estaciones de Servicios.",src:"https://www.bancontinental.com.py/#/club-continental"},
+  {entidad:["Banco Continental"],pos:["Dinelco"],tipo:"Banco",emblemas:["Petrosur"],dias:["vi"],afin:["Tarjetas de crédito Continental"],tiers:[{t:"Tarjetas de crédito Continental",pct:20,limite:500000,tope:null}],pct:20,pctTxt:"20%",limite:500000,tope:null,per:"Semanal",desde:null,hasta:"2026-11-13",nota:"No aplica en la app del emblema ni en POS virtual. Límite de compra semanal por cuenta de tarjeta, compartido entre todas las estaciones adheridas del emblema. Solo presencial por POS físico. No participan prepagas, Gourmet ni Cabal. No acumulable. Bases en Club Continental, rubro Estaciones de Servicios.",src:"https://www.bancontinental.com.py/#/club-continental"},
+  {entidad:["Banco Continental"],pos:["Dinelco"],tipo:"Banco",emblemas:["Petrochaco"],dias:["vi"],afin:["Tarjetas de crédito Continental"],tiers:[{t:"Tarjetas de crédito Continental",pct:20,limite:500000,tope:null}],pct:20,pctTxt:"20%",limite:500000,tope:null,per:"Semanal",desde:null,hasta:"2026-11-20",nota:"Límite de compra semanal por cuenta de tarjeta, compartido entre todas las estaciones adheridas del emblema. Solo presencial por POS físico. No participan prepagas, Gourmet ni Cabal. No acumulable. Bases en Club Continental, rubro Estaciones de Servicios.",src:"https://www.bancontinental.com.py/#/club-continental"},
+  {entidad:["Banco Continental"],pos:["Dinelco"],tipo:"Banco",emblemas:["Petromax"],dias:["vi"],afin:["Tarjetas de crédito Continental"],tiers:[{t:"Tarjetas de crédito Continental",pct:20,limite:500000,tope:null}],pct:20,pctTxt:"20%",limite:500000,tope:null,per:"Semanal",desde:null,hasta:"2027-10-01",nota:"Límite de compra semanal por cuenta de tarjeta, compartido entre todas las estaciones adheridas del emblema. Solo presencial por POS físico. No participan prepagas, Gourmet ni Cabal. No acumulable. Bases en Club Continental, rubro Estaciones de Servicios.",src:"https://www.bancontinental.com.py/#/club-continental"},
+  {entidad:["Banco Continental"],pos:["Dinelco"],tipo:"Banco",emblemas:["Compasa"],dias:["vi"],afin:["Tarjetas de crédito Continental"],tiers:[{t:"Tarjetas de crédito Continental",pct:20,limite:500000,tope:null}],pct:20,pctTxt:"20%",limite:500000,tope:null,per:"Semanal",desde:null,hasta:"2027-09-17",nota:"No aplica en la app del emblema ni en POS virtual. Límite de compra semanal por cuenta de tarjeta, compartido entre todas las estaciones adheridas del emblema. Solo presencial por POS físico. No participan prepagas, Gourmet ni Cabal. No acumulable. Bases en Club Continental, rubro Estaciones de Servicios.",src:"https://www.bancontinental.com.py/#/club-continental"},
+  {entidad:["Banco Continental"],pos:["Dinelco"],tipo:"Banco",emblemas:["Puma Energy"],dias:["vi"],afin:["Tarjetas de crédito Continental"],tiers:[{t:"Tarjetas de crédito Continental",pct:15,limite:500000,tope:null}],pct:15,pctTxt:"15%",limite:500000,tope:null,per:"Semanal",desde:null,hasta:"2027-04-30",nota:"Límite de compra semanal por cuenta de tarjeta, compartido entre todas las estaciones adheridas del emblema. Solo presencial por POS físico. No participan prepagas, Gourmet ni Cabal. No acumulable. Bases en Club Continental, rubro Estaciones de Servicios.",src:"https://www.bancontinental.com.py/#/club-continental"},
+  {entidad:["Banco Continental"],pos:["Dinelco"],tipo:"Banco",emblemas:["Ecop"],dias:["vi"],afin:["Tarjetas de crédito Continental"],tiers:[{t:"Tarjetas de crédito Continental",pct:15,limite:500000,tope:null}],pct:15,pctTxt:"15%",limite:500000,tope:null,per:"Semanal",desde:null,hasta:"2026-12-06",nota:"No aplica en la app del emblema ni en POS virtual. Límite de compra semanal por cuenta de tarjeta, compartido entre todas las estaciones adheridas del emblema. Solo presencial por POS físico. No participan prepagas, Gourmet ni Cabal. No acumulable. Bases en Club Continental, rubro Estaciones de Servicios.",src:"https://www.bancontinental.com.py/#/club-continental"},
+  {entidad:["Banco Continental"],pos:["Dinelco"],tipo:"Banco",emblemas:["Ultra"],dias:["vi"],afin:["Tarjetas de crédito Continental"],tiers:[{t:"Tarjetas de crédito Continental",pct:10,limite:500000,tope:null}],pct:10,pctTxt:"10%",limite:500000,tope:null,per:"Semanal",desde:null,hasta:"2027-04-09",nota:"Tarjeta física o QR. No aplica en la app del emblema ni en POS virtual. Límite de compra semanal por cuenta de tarjeta, compartido entre todas las estaciones adheridas del emblema. Solo presencial por POS físico. No participan prepagas, Gourmet ni Cabal. No acumulable. Bases en Club Continental, rubro Estaciones de Servicios.",src:"https://www.bancontinental.com.py/#/club-continental"},
+  {entidad:["Banco Continental"],pos:["Dinelco"],tipo:"Banco",emblemas:["HN Petróleos"],dias:["vi"],afin:["Tarjetas de crédito Continental"],tiers:[{t:"Tarjetas de crédito Continental",pct:20,limite:500000,tope:null}],pct:20,pctTxt:"20%",limite:500000,tope:null,per:"Semanal",desde:null,hasta:"2027-04-23",nota:"Límite de compra semanal por cuenta de tarjeta, compartido entre todas las estaciones adheridas del emblema. Solo presencial por POS físico. No participan prepagas, Gourmet ni Cabal. No acumulable. Bases en Club Continental, rubro Estaciones de Servicios.",src:"https://www.bancontinental.com.py/#/club-continental"},
+  {entidad:["Banco Continental"],pos:["Dinelco"],tipo:"Banco",emblemas:["Enercon"],dias:["vi"],afin:["Tarjetas de crédito Continental"],tiers:[{t:"Tarjetas de crédito Continental",pct:20,limite:500000,tope:null}],pct:20,pctTxt:"20%",limite:500000,tope:null,per:"Semanal",desde:null,hasta:"2027-03-19",nota:"Límite de compra semanal por cuenta de tarjeta, compartido entre todas las estaciones adheridas del emblema. Solo presencial por POS físico. No participan prepagas, Gourmet ni Cabal. No acumulable. Bases en Club Continental, rubro Estaciones de Servicios.",src:"https://www.bancontinental.com.py/#/club-continental"},
+  {entidad:["Banco Continental"],pos:["Dinelco"],tipo:"Banco",emblemas:["Shell (Grupo Laso)"],dias:["vi"],afin:["Tarjetas de crédito Continental"],tiers:[{t:"Tarjetas de crédito Continental",pct:10,limite:500000,tope:null}],pct:10,pctTxt:"10%",limite:500000,tope:null,per:"Semanal",desde:null,hasta:"2027-08-06",nota:"Tarjeta física o QR. Límite de compra semanal por cuenta de tarjeta, compartido entre todas las estaciones adheridas del emblema. Solo presencial por POS físico. No participan prepagas, Gourmet ni Cabal. No acumulable. Bases en Club Continental, rubro Estaciones de Servicios.",src:"https://www.bancontinental.com.py/#/club-continental"},
+  {entidad:["Banco Continental"],pos:["Dinelco"],tipo:"Banco",emblemas:["Petropar Curuguaty"],dias:["vi"],afin:["Tarjetas de crédito Continental"],tiers:[{t:"Tarjetas de crédito Continental",pct:10,limite:500000,tope:null}],pct:10,pctTxt:"10%",limite:500000,tope:null,per:"Semanal",desde:null,hasta:"2027-01-29",nota:"Una sola estación: Ruta 13 con Gaspar Rodríguez de Francia (Radio Curuguaty). Límite de compra semanal por cuenta de tarjeta, compartido entre todas las estaciones adheridas del emblema. Solo presencial por POS físico. No participan prepagas, Gourmet ni Cabal. No acumulable. Bases en Club Continental, rubro Estaciones de Servicios.",src:"https://www.bancontinental.com.py/#/club-continental"},
 ];
 
 const LOGOS = {
@@ -779,6 +810,7 @@ function source(url){
   const u=url.toLowerCase();
   if(u.includes("instagram.com")) return {t:"Ver publicación en Instagram",k:"post"};
   if(u.includes("facebook.com")) return {t:"Ver publicación en Facebook",k:"post"};
+  if(u.includes("club-continental")) return {t:"Bases en Club Continental",k:"bases"};
   if(u.endsWith(".pdf")||/bases|beneficio|promo|noticias/.test(u)) return {t:"Bases y condiciones",k:"bases"};
   return {t:"Página oficial",k:"bases"};
 }
@@ -815,6 +847,15 @@ function compute(){
     // Equivalente mensual para comparar topes semanales, diarios y mensuales
     const f=p.per==="Semanal"?4.3:p.per==="Diaria"?(p.dias.includes("todos")?30:4.3):1;
     p.mes=p.total==null?null:Math.round(p.total*f);
+    // Máximos para mostrar: por semana y por mes, según el período en que la entidad declara el tope
+    const cap=p.total;p.sem=null;p.mm=null;p.aprox=false;p.semNote="";p.sinPer=false;
+    if(cap!=null){
+      if(p.per==="Semanal"){p.sem=cap;p.mm=Math.round(cap*4.3/1000)*1000;p.aprox=true}
+      else if(p.per==="Mensual"){p.mm=cap;p.sem=cap;p.semNote="dentro del tope mensual"}
+      else if(p.per==="Diaria"){const d=p.dias.includes("todos")?7:1;p.sem=cap*d;p.mm=Math.round(cap*(d===7?30:4.3)/1000)*1000;p.aprox=true}
+      else if(p.per==="Por vigencia"){p.mm=cap;p.semNote="en toda la promo"}
+      else p.sinPer=true;
+    }
   });
 }
 const active=p=>p.estado==="vigente"||p.estado==="verificar";
@@ -878,16 +919,31 @@ function bestHTML(){
   return list.map((p,i)=>`<li class="pick"><a href="#p${p.id}"><span class="rank">${i+1}</span>${plate(p.entidad[0])}<span class="who"><span class="nm">${esc(p.entidad.join(" · "))}</span><span class="em">${esc(p.emblemas.join(", "))}</span><span class="cap">${p.total!=null?"Hasta "+gs(p.total)+(perTxt(p)?" "+perTxt(p):""):"Sin tope informado"}</span></span><span class="pc">${p.pct}%</span></a></li>`).join("");
 }
 
-const COLS=`<div class="cols" aria-hidden="true"><span>Entidad y tarjetas</span><span>Estaciones</span><span>Días</span><span class="r">Reintegro</span><span class="r">Montos</span><span>Estado y fuente</span></div>`;
+
+const NETNAME={Upay:"Upay",Dinelco:"Dinelco",Bancard:"Bancard (Infonet)"};
+function netHTML(p){
+  const has=p.pos&&p.pos.length;
+  return (has?p.pos.map(n=>`<span class="tag net">${NETNAME[n]||n}</span>`).join(""):"")
+    +(p.via?`<span class="tag net via">${esc(p.via)}</span>`:"")
+    +(!has&&!p.via?`<span class="tag net off">No indicada</span>`:"");
+}
+function maxRows(p){
+  if(p.total==null) return `<dt class="max">Máximo</dt><dd class="max">—</dd>`;
+  if(p.sinPer) return `<dt class="max">Máximo</dt><dd class="max">${gs(p.total)}<small> período no indicado</small></dd>`;
+  const sem=p.sem!=null?`${gs(p.sem)}${p.semNote?`<small> ${p.semNote}</small>`:""}`:"—";
+  const mes=p.mm!=null?`${p.aprox?"≈ ":""}${gs(p.mm)}${p.per==="Por vigencia"?`<small> ${p.semNote}</small>`:""}`:"—";
+  return `<dt class="max">Máx. semana</dt><dd class="max">${sem}</dd><dt class="max">Máx. mes</dt><dd class="max">${mes}</dd>`;
+}
+const COLS=`<div class="cols" aria-hidden="true"><span>Entidad y tarjetas</span><span>Estaciones</span><span>Días y red de pago</span><span class="r">Reintegro</span><span class="r">Montos y reintegro máximo</span><span>Estado y fuente</span></div>`;
 function rowHTML(p){
   const src=source(p.src);
   return `<article class="promo${active(p)?"":" dim"}" id="p${p.id}">
     <div class="ent">${plate(p.entidad[0])}<div class="txt"><h3>${esc(p.entidad.join(" · "))}</h3><span class="tipo">${p.tipo}</span>
-      ${p.tiers?`<ul class="tiers">${p.tiers.map(t=>`<li><b>${t.pct}%</b> ${esc(t.t)}${t.limite!=null?` · compra hasta ${gs(t.limite)}`:""}${t.tope!=null?` · reintegro hasta ${gs(t.tope)}`:""}</li>`).join("")}</ul>`:`<div class="afin">${p.afin.map(a=>`<span class="tag">${esc(a)}</span>`).join("")}</div>`}<div class="afin">${p.pos&&p.pos.length?`<span class="net-l">Red:</span>`+p.pos.map(n=>`<span class="tag net">${n}</span>`).join(""):""}${p.via?`<span class="tag net via">${esc(p.via)}</span>`:""}${!(p.pos&&p.pos.length)&&!p.via?`<span class="tag net off">Red no indicada</span>`:""}</div>${p.nota?`<p class="note">${esc(p.nota)}</p>`:""}</div></div>
+      ${p.tiers?`<ul class="tiers">${p.tiers.map(t=>`<li><b>${t.pct}%</b> ${esc(t.t)}${t.limite!=null?` · compra hasta ${gs(t.limite)}`:""}${t.tope!=null?` · reintegro hasta ${gs(t.tope)}`:""}</li>`).join("")}</ul>`:`<div class="afin">${p.afin.map(a=>`<span class="tag">${esc(a)}</span>`).join("")}</div>`}${p.nota?(p.nota.length>110?`<details class="cond"><summary>Condiciones</summary><p class="note">${esc(p.nota)}</p></details>`:`<p class="note">${esc(p.nota)}</p>`):""}</div></div>
     <div class="ems">${p.emblemas.map(e=>`<span class="em-i">${plate(e,"sm",true)}<span>${esc(e)}</span></span>`).join("")}</div>
-    <div class="dias">${dayLabel(p.dias)}${perTxt(p)?`<small>Tope ${perTxt(p)}</small>`:""}</div>
+    <div class="dias"><div>${dayLabel(p.dias)}${perTxt(p)?`<small>Tope ${perTxt(p)}</small>`:""}</div><div class="netcol">${netHTML(p)}</div></div>
     <div class="pct">${p.pct!=null?p.pct+"%":"—"}${p.pctTxt&&p.pctTxt!==p.pct+"%"?`<small>${esc(p.pctTxt)}</small>`:""}</div>
-    <dl class="money"><dt>Límite</dt><dd>${gs(p.limite)}</dd><dt>Tope</dt><dd>${gs(p.tope)}</dd><dt class="max">Máximo</dt><dd class="max">${gs(p.total)}</dd>${p.mes!=null&&p.mes!==p.total?`<dt>Por mes</dt><dd>≈ ${gs(p.mes)}</dd>`:""}</dl>
+    <dl class="money"><dt>Compra hasta</dt><dd>${gs(p.limite)}${p.limite!=null&&perTxt(p)?`<small> ${perTxt(p)}</small>`:""}</dd>${p.tope!=null?`<dt>Tope</dt><dd>${gs(p.tope)}</dd>`:""}${maxRows(p)}</dl>
     <div class="side"><span class="estado e-${p.estado}">${p.estado[0].toUpperCase()+p.estado.slice(1)}</span>${p.hasta?`<span class="until">${p.estado==="vencida"?"Terminó":"Hasta"} el ${fdate(p.hasta)}</span>`:""}
       ${p.niveles?`<span class="lvl-note">Calculado con tu nivel ${state.nivel}</span>`:""}
       <a class="src" href="${p.src}" target="_blank" rel="noopener">${src.k==="bases"?DOC_SVG:LINK_SVG}${src.t}</a></div>
@@ -927,7 +983,7 @@ function renderStations(){
 }
 
 // ---- Mapa (Leaflet). Los puntos con promo para tus tarjetas van más grandes y en ámbar
-let MAP=null,GRP=null,ME=null,tilesOk=0,tilesErr=0;
+let MAP=null,GRP=null,LG=null,ME=null,tilesOk=0,tilesErr=0;
 function popupHTML(s){
   const p=s.p,go=`https://www.google.com/maps/dir/?api=1&destination=${s.la},${s.lo}`;
   return `<div class="pop"><b>${esc(s.n)}</b>${esc(subline(s))}
@@ -942,6 +998,7 @@ function initMap(){
   t.addTo(MAP);
   MAP.fitBounds([[-27.4,-58.8],[-21.0,-54.4]]);
   GRP=L.layerGroup().addTo(MAP);
+  LG=L.layerGroup().addTo(MAP);MAP.on("moveend",renderLogos);
   STATIONS.forEach(s=>{
     s.m=L.circleMarker([s.la,s.lo],{radius:4,weight:1,color:"#fff",fillColor:"#8a9490",fillOpacity:.9});
     s.m.bindPopup(()=>popupHTML(s),{maxWidth:260});
@@ -960,6 +1017,28 @@ function updateMap(){
     else{s.m.setStyle({radius:4,weight:1,color:"#fff",fillColor:"#8a9490",fillOpacity:.85});cold.push(s.m)}
   });
   cold.forEach(m=>GRP.addLayer(m));hot.forEach(m=>GRP.addLayer(m));
+  renderLogos();
+}
+
+// Al acercar el mapa, cada estación se muestra con el logo de su emblema (y su % si tiene promo)
+const LOGO_ZOOM=12;
+function logoHTML(s){
+  const l0=s.s&&LOGOS[s.s];
+  const inner=l0&&l0.icon?`<img src="${l0.icon}" alt="" width="30" height="30">`:(s.s?`<span class="mono2">${esc(initials(BRANDNAME(s.s)))}</span>`:FUEL_SVG);
+  return `<div class="lm${s.p?" hot":""}">${inner}${s.p?`<b>${s.p.pct}%</b>`:""}</div>`;
+}
+function renderLogos(){
+  if(!MAP||!LG)return;
+  LG.clearLayers();
+  if(MAP.getZoom()<LOGO_ZOOM){if(!MAP.hasLayer(GRP))MAP.addLayer(GRP);return}
+  if(MAP.hasLayer(GRP))MAP.removeLayer(GRP);
+  const b=MAP.getBounds().pad(.1),c=MAP.getCenter();
+  const vis=STATIONS.filter(s=>(!state.emb||s.s===state.emb)&&b.contains([s.la,s.lo]));
+  vis.sort((x,y)=>(y.p?1:0)-(x.p?1:0)||Math.hypot(x.la-c.lat,x.lo-c.lng)-Math.hypot(y.la-c.lat,y.lo-c.lng));
+  vis.slice(0,300).forEach(s=>{
+    const m=L.marker([s.la,s.lo],{icon:L.divIcon({className:"lmw",html:logoHTML(s),iconSize:[36,36],iconAnchor:[18,18]})});
+    m.bindPopup(()=>popupHTML(s),{maxWidth:260});LG.addLayer(m);
+  });
 }
 function focusMe(){
   if(!MAP||!me)return;
