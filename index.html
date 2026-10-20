@@ -1,140 +1,245 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>promosTC</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Reintegros en combustible con tarjetas de bancos, financieras y cooperativas en Paraguay, por día y por estación.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Public+Sans:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: cartel de surtidor arriba (día de hoy + filtros), lista de promos debajo; tabla en escritorio, tarjetas en teléfono */
+/* Pantalla de trabajo: la pregunta es "¿con qué tarjeta me conviene cargar hoy?".
+   Bloque más grande = respuesta de hoy. Debajo, filtros en una fila y la lista completa.
+   Una familia de texto (Public Sans); Barlow Condensed solo para la marca y las cifras de %.
+   Bordes de 1px en vez de sombras; radio ajustado 8/6/4; logos en círculo.
+   Acento ámbar solo en los porcentajes (el dato); verde petróleo para el control seleccionado. */
 :root{
-  --bg:#f3f5f4; --surface:#ffffff; --ink:#14201d; --muted:#5b6b66; --line:#d5dedb;
-  --petrol:#0e5b52; --petrol-soft:#e0eeeb; --amber:#b86a00; --amber-soft:#fbefd9;
-  --ok:#1c7c4a; --ok-soft:#dff2e7; --warn:#9a6400; --warn-soft:#fbf0d6; --off:#8a4b4b; --off-soft:#f5e3e3;
-  --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
-  --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --ground:#f4f6f5; --surface:#ffffff; --raised:#f7f9f8; --active:#e9eeec;
+  --border:#e3e8e6; --rule:#eef2f0; --control:#cdd5d2;
+  --text:#121a18; --muted:#55615d; --faint:#66716d;
+  --petrol:#0c5b51; --on-petrol:#ffffff;
+  --amber:#a35c00;
+  --ok-bg:#dcf5e6; --ok-ink:#0f4d2c; --warn-bg:#fdf3dc; --warn-ink:#7a4a00; --off-bg:#f8e6e4; --off-ink:#7d2320;
+  --plate:#ffffff; --plate-line:oklch(0 0 0 / .1);
+  --font:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --fig:"Barlow Condensed","Arial Narrow",sans-serif;
+  --r-card:8px; --r-ctl:6px; --r-chip:4px;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#0f1514; --surface:#162120; --ink:#e4ecea; --muted:#93a39e; --line:#2a3836;
-  --petrol:#5cc3b4; --petrol-soft:#183431; --amber:#f2b04a; --amber-soft:#3a2c14;
-  --ok:#62cf93; --ok-soft:#173326; --warn:#e8b44f; --warn-soft:#382c12; --off:#e09a9a; --off-soft:#3a2121; color-scheme:dark}}
+  --ground:#121212; --surface:#1a1a1a; --raised:#202020; --active:#2a2a2a;
+  --border:#2c2c2c; --rule:#242424; --control:#454545;
+  --text:#f2f2f2; --muted:#b4b4b4; --faint:#a0a0a0;
+  --petrol:#5cc4b4; --on-petrol:#06201c;
+  --amber:#f2b04c;
+  --ok-bg:#16301f; --ok-ink:#6fd49b; --warn-bg:#33290f; --warn-ink:#ecc061; --off-bg:#341d1d; --off-ink:#ec9d9d;
+  --plate:#f3f3f3; --plate-line:oklch(1 0 0 / .1); color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0f1514; --surface:#162120; --ink:#e4ecea; --muted:#93a39e; --line:#2a3836;
-  --petrol:#5cc3b4; --petrol-soft:#183431; --amber:#f2b04a; --amber-soft:#3a2c14;
-  --ok:#62cf93; --ok-soft:#173326; --warn:#e8b44f; --warn-soft:#382c12; --off:#e09a9a; --off-soft:#3a2121; color-scheme:dark}
+  --ground:#121212; --surface:#1a1a1a; --raised:#202020; --active:#2a2a2a;
+  --border:#2c2c2c; --rule:#242424; --control:#454545;
+  --text:#f2f2f2; --muted:#b4b4b4; --faint:#a0a0a0;
+  --petrol:#5cc4b4; --on-petrol:#06201c;
+  --amber:#f2b04c;
+  --ok-bg:#16301f; --ok-ink:#6fd49b; --warn-bg:#33290f; --warn-ink:#ecc061; --off-bg:#341d1d; --off-ink:#ec9d9d;
+  --plate:#f3f3f3; --plate-line:oklch(1 0 0 / .1); color-scheme:dark}
+
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45}
-.wrap{max-width:1180px;margin:0 auto;padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:22px}
-header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px}
-h1{font-family:var(--f-display);font-weight:700;font-size:clamp(40px,7vw,60px);line-height:.9;margin:0;letter-spacing:.01em}
-h1 b{color:var(--amber);font-weight:700}
-.sub{color:var(--muted);margin:6px 0 0;max-width:60ch}
-.stamp{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.08em;font-size:14px;color:var(--muted);border:1px solid var(--line);padding:6px 10px;border-radius:4px}
+html{-webkit-font-smoothing:antialiased;scrollbar-color:var(--control) transparent}
+body{background:var(--ground);color:var(--text);font-family:var(--font);font-size:15px;line-height:1.5;font-variant-numeric:tabular-nums}
+::selection{background:var(--petrol);color:var(--on-petrol)}
+input{caret-color:var(--petrol)}
+a{color:inherit;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--petrol);outline-offset:2px;border-radius:var(--r-ctl)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ico{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+button{font:inherit;color:inherit;cursor:pointer}
 
-.days{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px}
-.day{font-family:var(--f-display);font-size:18px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;background:var(--surface);border:1px solid var(--line);color:var(--ink);border-radius:6px;padding:10px 4px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
-.day small{font-family:var(--f-body);font-size:11px;font-weight:500;color:var(--muted);letter-spacing:0;text-transform:none}
-.day[aria-pressed="true"]{background:var(--petrol);border-color:var(--petrol);color:var(--bg)}
-.day[aria-pressed="true"] small{color:var(--bg);opacity:.85}
-.day.today{box-shadow:inset 0 -3px 0 var(--amber)}
-.day:focus-visible,select:focus-visible,input:focus-visible,th button:focus-visible,label.chk:focus-within{outline:2px solid var(--amber);outline-offset:2px}
+.wrap{max-width:1140px;margin:0 auto;padding-block:16px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:20px}
 
-.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.filters select,.filters input[type=search]{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 10px;min-width:0}
-.filters input[type=search]{flex:1 1 220px}
-label.chk{display:flex;gap:6px;align-items:center;color:var(--muted);font-size:14px;cursor:pointer}
-.count{margin-left:auto;color:var(--muted);font-size:14px}
+/* Barra superior: marca y frescura de los datos */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;min-height:44px}
+.brand{display:flex;align-items:center;gap:8px;text-decoration:none}
+.brand .ico{width:24px;height:24px;color:var(--petrol)}
+.brand b{font:700 28px/1 var(--fig);letter-spacing:.005em}
+.brand b span{color:var(--amber)}
+.stamp{font-size:13px;color:var(--muted)}
 
-.tablebox{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:8px}
-table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
-th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-family:var(--f-display);font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);white-space:nowrap;background:var(--surface)}
-th button{all:unset;cursor:pointer}
-th button::after{content:"";margin-left:4px}
-th button[data-dir="asc"]::after{content:"▲"}
-th button[data-dir="desc"]::after{content:"▼"}
-tr:last-child td{border-bottom:0}
-td.num{text-align:right;white-space:nowrap}
-.ent{font-weight:600}
-.tipo{display:block;font-size:12px;color:var(--muted)}
-.pct{font-family:var(--f-display);font-weight:700;font-size:26px;line-height:1;color:var(--amber)}
-.pct small{font-size:14px;color:var(--muted);font-weight:500;display:block;margin-top:2px;font-family:var(--f-body)}
-.tot{font-weight:600}
-.tags{display:flex;flex-wrap:wrap;gap:4px}
-.tag{font-size:12px;padding:2px 7px;border-radius:999px;background:var(--petrol-soft);color:var(--ink);white-space:nowrap}
-.tag.em{background:var(--amber-soft)}
-.note{font-size:12.5px;color:var(--muted);margin-top:4px;max-width:44ch}
-.estado{font-size:12px;font-weight:600;padding:2px 8px;border-radius:4px;white-space:nowrap;display:inline-block}
-.e-vigente{background:var(--ok-soft);color:var(--ok)}
-.e-verificar{background:var(--warn-soft);color:var(--warn)}
-.e-vencida,.e-antigua{background:var(--off-soft);color:var(--off)}
-a{color:var(--petrol)}
-.empty{padding:28px;text-align:center;color:var(--muted)}
-footer{color:var(--muted);font-size:13px;max-width:80ch;display:flex;flex-direction:column;gap:6px}
+/* La respuesta de hoy */
+.today{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);padding:20px;display:grid;gap:16px}
+.today-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px}
+.today h1{margin:0;font-size:28px;line-height:1.15;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.today-head p{margin:0;color:var(--muted);font-size:14px}
+.days{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:2px;background:var(--active);padding:3px;border-radius:var(--r-card)}
+.day{background:transparent;border:0;border-radius:var(--r-ctl);min-height:44px;padding:4px 2px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-weight:600;font-size:14px;color:var(--muted);transition:background-color .15s ease-out,color .15s ease-out}
+.day small{font-size:11px;font-weight:500;line-height:1}
+.day:hover{color:var(--text)}
+.day[aria-pressed="true"]{background:var(--petrol);color:var(--on-petrol)}
+.day:active{scale:.96}
+.best{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:8px;transition:opacity .16s ease-out}
+.best.swap{opacity:.3}
+.pick a{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;gap:10px;align-items:center;text-decoration:none;background:var(--raised);border:1px solid var(--border);border-radius:var(--r-card);padding:10px 12px;min-height:64px;transition:border-color .15s ease-out}
+.pick a:hover{border-color:var(--control)}
+.pick .rank{font:700 16px/1 var(--fig);color:var(--muted);min-width:10px}
+.pick .who{min-width:0}
+.pick .nm{font-weight:600;font-size:14px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pick .em{font-size:12px;color:var(--muted);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pick .pc{text-align:right;font:700 28px/1 var(--fig);color:var(--amber)}
+.pick .cap{display:block;font-size:12px;color:var(--text);font-weight:500;margin-top:2px}
+.nobest{background:var(--raised);border:1px dashed var(--control);border-radius:var(--r-card);padding:14px;color:var(--muted)}
 
-@media (max-width:760px){
-  .days{grid-template-columns:repeat(4,minmax(0,1fr))}
-  .count{margin-left:0;width:100%}
-  .tablebox{background:none;border:0;overflow:visible}
-  table,tbody,tr,td{display:block;width:100%}
-  thead{display:none}
-  tr{background:var(--surface);border:1px solid var(--line);border-radius:8px;margin-bottom:10px;padding:6px 0}
-  td{border:0;padding:6px 14px;display:grid;grid-template-columns:110px minmax(0,1fr);gap:8px}
-  td::before{content:attr(data-l);font-family:var(--f-display);text-transform:uppercase;letter-spacing:.05em;font-size:13px;color:var(--muted)}
-  td.num{text-align:left}
+/* Logos: círculo con placa clara para que se lean en ambos temas */
+.plate{width:32px;height:32px;flex:none;border-radius:50%;background:var(--plate);outline:1px solid var(--plate-line);outline-offset:-1px;display:grid;place-items:center;overflow:hidden}
+.plate img{width:100%;height:100%;object-fit:contain;padding:4px}
+.plate.sm{width:20px;height:20px}
+.plate.sm img{padding:2px}
+.mono{font:700 13px/1 var(--fig);color:#fff;letter-spacing:.02em}
+.plate.sm .mono{font-size:10px}
+.plate.fuel{background:var(--active);outline-color:transparent;color:var(--muted)}
+.plate.fuel .ico{width:12px;height:12px}
+.plate:not(.sm).fuel .ico{width:16px;height:16px}
+
+/* Filtros: una fila de estaciones, una fila de controles */
+.controls{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+.wrap>*{min-width:0}
+.emblems{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin;overscroll-behavior-x:contain}
+.emb{flex:none;display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-ctl);padding:0 12px 0 8px;min-height:40px;font-size:14px;font-weight:500;white-space:nowrap;transition:border-color .15s ease-out,background-color .15s ease-out}
+.emb.all{padding-left:12px}
+.emb:hover{border-color:var(--control)}
+.emb[aria-pressed="true"]{background:var(--petrol);border-color:var(--petrol);color:var(--on-petrol);font-weight:600}
+.emb:active{scale:.96}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{display:flex;gap:2px;background:var(--active);padding:3px;border-radius:var(--r-card);overflow-x:auto;max-width:100%}
+.seg button{background:transparent;border:0;border-radius:var(--r-ctl);padding:0 12px;min-height:34px;font-size:14px;font-weight:500;color:var(--muted);white-space:nowrap;transition:background-color .15s ease-out,color .15s ease-out}
+.seg button:hover{color:var(--text)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--text);font-weight:600}
+.seg button:active{scale:.96}
+.search{flex:1 1 220px;display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--control);border-radius:var(--r-ctl);padding:0 10px;min-height:40px;color:var(--muted)}
+.search:focus-within{border-color:var(--petrol)}
+.search input{flex:1;min-width:0;border:0;background:transparent;font:inherit;color:var(--text);outline:0;height:38px}
+.search input::placeholder{color:var(--faint)}
+.more{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:14px;color:var(--muted)}
+.more label{display:flex;align-items:center;gap:8px;min-height:40px;cursor:pointer}
+.more select{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--control);border-radius:var(--r-ctl);min-height:36px;padding:0 8px}
+.more input[type=checkbox]{accent-color:var(--petrol);width:16px;height:16px}
+.lvl{display:flex;align-items:center;gap:8px}
+.lvl .seg button{min-width:36px;padding:0 8px}
+
+/* Lista */
+.listhead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.listhead h2{margin:0;font-size:18px;font-weight:700}
+.listhead p{margin:0;font-size:13px;color:var(--muted)}
+.list{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);overflow:hidden}
+.cols,.promo{display:grid;grid-template-columns:minmax(0,2.4fr) minmax(0,1.5fr) minmax(0,1fr) 84px minmax(0,1.45fr) minmax(0,1.25fr);gap:16px;padding:0 16px}
+.cols{min-height:38px;align-items:center;font-size:12px;color:var(--muted);border-bottom:1px solid var(--border)}
+.cols .r{text-align:right}
+.promo{padding-block:14px;border-top:1px solid var(--rule);align-items:start}
+.promo:first-of-type{border-top:0}
+.promo.dim{opacity:.6}
+.promo:target{background:var(--raised)}
+.ent{display:flex;gap:12px;min-width:0}
+.ent .txt{min-width:0}
+.ent h3{margin:0;font-size:15px;line-height:1.35;font-weight:600}
+.ent .tipo{font-size:12px;color:var(--muted)}
+.afin{margin-top:6px;display:flex;flex-wrap:wrap;gap:4px}
+.tag{flex:0 1 auto;max-width:100%;font-size:12px;line-height:1.3;padding:2px 6px;border-radius:var(--r-chip);background:var(--active);color:var(--text)}
+.note{font-size:13px;color:var(--muted);margin:6px 0 0;max-width:56ch;text-wrap:pretty}
+.ems{display:flex;flex-direction:column;gap:6px;min-width:0}
+.em-i{display:flex;align-items:center;gap:8px;font-size:14px;min-width:0}
+.em-i span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dias{font-size:14px;font-weight:500}
+.dias small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.pct{font:700 30px/1 var(--fig);color:var(--amber);text-align:right}
+.pct small{display:block;font:500 12px/1.3 var(--font);color:var(--muted);margin-top:4px}
+.money{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;margin:0;font-size:13px;color:var(--muted);align-content:start}
+.money dd{margin:0;text-align:right;color:var(--text);white-space:nowrap}
+.money .max{font-weight:700;color:var(--text);font-size:14px}
+.side{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.estado{flex:none;font-size:12px;font-weight:600;padding:2px 8px;border-radius:var(--r-chip);white-space:nowrap}
+.e-vigente{background:var(--ok-bg);color:var(--ok-ink)}
+.e-verificar{background:var(--warn-bg);color:var(--warn-ink)}
+.e-vencida,.e-antigua{background:var(--off-bg);color:var(--off-ink)}
+.until{font-size:12px;color:var(--muted)}
+.src{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;min-height:32px;text-decoration:underline;text-decoration-color:var(--control);text-underline-offset:4px}
+.src:hover{text-decoration-color:currentColor}
+.src.agg{color:var(--muted);font-weight:500}
+.lvl-note{font-size:12px;color:var(--petrol);font-weight:600}
+.empty{padding:32px 16px;text-align:center;color:var(--muted)}
+.empty button{margin-top:10px;font-weight:600;color:var(--text);background:var(--surface);border:1px solid var(--control);border-radius:var(--r-ctl);min-height:40px;padding:0 14px}
+footer{color:var(--muted);font-size:13px;max-width:80ch;display:grid;gap:6px}
+footer p{margin:0;text-wrap:pretty}
+
+@media (max-width:980px){
+  .cols{display:none}
+  .promo{grid-template-columns:minmax(0,1fr) auto;gap:10px 14px;padding-inline:14px}
+  .pct{grid-column:2;grid-row:1}
+  .ems,.dias,.money,.side{grid-column:1 / -1}
+  .ems{flex-direction:row;flex-wrap:wrap;gap:6px 14px}
+  .money{grid-template-columns:repeat(3,auto minmax(0,1fr));gap:2px 8px}
+  .side{flex-direction:row;flex-wrap:wrap;align-items:center;gap:6px 12px}
 }
-@media (prefers-reduced-motion:no-preference){.day{transition:background .15s,color .15s}}
+@media (max-width:600px){
+  .days{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .today{padding:14px}
+  .today h1{font-size:22px}
+  .money{grid-template-columns:auto 1fr}
+  .bar{flex-direction:column;align-items:stretch}
+  .search{flex:0 0 auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}.best.swap{opacity:1}}
 </style>
 
 <div class="wrap">
-  <header>
-    <div>
-      <h1>promos<b>TC</b></h1>
-      <p class="sub">Reintegros en combustible con tarjetas de bancos, financieras y cooperativas en Paraguay. El reintegro máximo se calcula como el menor entre el % sobre el límite de compra y el tope declarado.</p>
-    </div>
-    <span class="stamp">Relevado 20/10/2026</span>
+  <header class="top">
+    <a class="brand" href="#" aria-label="promosTC, inicio">
+      <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M3 22V5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v17"/><path d="M2 22h13"/><path d="M14 9h2a2 2 0 0 1 2 2v5a1.5 1.5 0 0 0 3 0V8l-3-3"/><path d="M6 8h5"/></svg>
+      <b>promos<span>TC</span></b>
+    </a>
+    <span class="stamp">Datos relevados el 20/10/2026</span>
   </header>
 
-  <div class="days" id="days" role="group" aria-label="Día de carga"></div>
+  <section class="today" aria-labelledby="today-title">
+    <div class="today-head">
+      <h1 id="today-title">Hoy conviene cargar con</h1>
+      <p id="today-sub">Ordenado por lo máximo que podés recuperar en un mes</p>
+    </div>
+    <div class="days" id="days" role="group" aria-label="Día de carga"></div>
+    <ol class="best" id="best" aria-live="polite"></ol>
+  </section>
 
-  <div class="filters">
-    <select id="f-tipo" aria-label="Tipo de entidad">
-      <option value="">Todas las entidades</option>
-      <option value="Banco">Bancos</option>
-      <option value="Financiera">Financieras</option>
-      <option value="Cooperativa">Cooperativas</option>
-      <option value="Mutual">Mutuales</option>
-    </select>
-    <select id="f-emblema" aria-label="Emblema"></select>
-    <input type="search" id="f-q" placeholder="Buscar entidad, tarjeta o estación" aria-label="Buscar">
-    <label class="chk"><input type="checkbox" id="f-vencidas"> Mostrar vencidas y antiguas</label>
-    <span class="count" id="count"></span>
-  </div>
+  <section class="controls" aria-label="Filtros">
+    <div class="emblems" id="emblems" role="group" aria-label="Estación"></div>
+    <div class="bar">
+      <div class="seg" id="tipos" role="group" aria-label="Tipo de entidad"></div>
+      <label class="search"><svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="sr">Buscar</span><input type="search" id="q" placeholder="Buscar entidad, tarjeta o estación"></label>
+    </div>
+    <div class="more">
+      <div class="lvl"><span id="lvl-label">Tu nivel en ueno</span><div class="seg" id="nivel" role="group" aria-labelledby="lvl-label"></div></div>
+      <label for="sort">Ordenar por
+        <select id="sort">
+          <option value="total">Reintegro máximo por mes</option>
+          <option value="pct">Porcentaje</option>
+          <option value="entidad">Entidad</option>
+          <option value="dias">Día</option>
+        </select>
+      </label>
+      <label><input type="checkbox" id="vencidas"> Mostrar vencidas y antiguas</label>
+    </div>
+  </section>
 
-  <div class="tablebox">
-    <table>
-      <thead><tr>
-        <th><button data-k="entidad">Entidad</button></th>
-        <th>Emblemas</th>
-        <th><button data-k="dias">Días</button></th>
-        <th>Afinidades</th>
-        <th><button data-k="pct">% reintegro</button></th>
-        <th class="num"><button data-k="limite">Límite compra</button></th>
-        <th class="num"><button data-k="total">Reintegro máx.</button></th>
-        <th><button data-k="per">Periodicidad</button></th>
-        <th>Estado</th>
-      </tr></thead>
-      <tbody id="rows"></tbody>
-    </table>
-    <div class="empty" id="empty" hidden>No hay promos con esos filtros.</div>
-  </div>
+  <section aria-labelledby="list-title" style="display:grid;gap:10px">
+    <div class="listhead"><h2 id="list-title">Todas las promos</h2><p id="summary"></p></div>
+    <div class="list" id="list"></div>
+  </section>
 
   <footer>
-    <p>Fuentes: bases y condiciones de cada entidad, publicaciones en Instagram/Facebook de entidades y estaciones, y el agregador Benefix. Cada fila enlaza a su fuente.</p>
-    <p>Estado: <b>vigente</b> = fecha confirmada que cubre hoy; <b>verificar</b> = publicado en 2026 sin fecha de fin clara; <b>vencida</b> o <b>antigua</b> = ya terminó o es anterior a 2026. Confirmá siempre en la app o las bases antes de cargar.</p>
+    <p>Cada promo enlaza a su fuente: las bases y condiciones de la entidad cuando existen, o la publicación de Instagram o Facebook donde se anunció. Las que vienen del agregador Benefix conviene confirmarlas en la entidad.</p>
+    <p>Estados: vigente tiene fecha confirmada que cubre hoy; verificar se publicó en 2026 sin fecha de fin; vencida o antigua ya terminó o es anterior a 2026. Los logos pertenecen a sus marcas y se usan solo para identificarlas.</p>
   </footer>
 </div>
 
 <script>
-// ---- Datos: editá aquí. dias: lu ma mi ju vi sa do | "todos". pct = máximo. limite/tope en Gs. (null = no informado)
+// ---- Datos: editá aquí. dias: lu ma mi ju vi sa do | "todos" | "d10" (día 10 del mes) | "ver bases". pct = máximo. limite/tope en Gs. (null = no informado)
 const PROMOS = [
   // Cooperativas
   {entidad:["Cooperativa Ypacaraí"],tipo:"Cooperativa",emblemas:["Todas las estaciones"],dias:["mi"],afin:["Credicard","Visa Clásica","Mastercard Clásica","Mastercard Oro"],pct:20,pctTxt:"20%",limite:500000,tope:null,per:"Por vigencia",desde:"2026-10-07",hasta:"2026-10-28",nota:"Todos los miércoles de octubre.",src:"https://www.cooperativaypacarai.com.py/noticias/miercoles-de-combustible-167"},
@@ -160,8 +265,8 @@ const PROMOS = [
   {entidad:["Cooperativa Ñanemba'e"],tipo:"Cooperativa",emblemas:["Shell"],dias:["ver bases"],afin:["Tarjeta de débito Ñanemba'e"],pct:null,pctTxt:"Gs. 300 menos por litro",limite:null,tope:null,per:"—",desde:null,hasta:null,antigua:true,nota:"Post sin fecha, probablemente 2022–2023.",src:"https://www.facebook.com/Cooperativa.nanembae/posts/-hoy-tenes-descuento-con-tu-tarjetadedebito-de-la-cooperativa-%C3%B1anembae-todo-el-d/5986179414744786/"},
 
   // Bancos
-  {entidad:["ueno bank"],tipo:"Banco",emblemas:["Copetrol","Petromax","Enex","Petrobras","Puma","Petrochaco","3MG"],dias:["todos"],afin:["Mastercard Dúo Clásica","Black","Albirroja"],pct:40,pctTxt:"10–40% según nivel",limite:null,tope:150000,per:"Semanal",desde:"2026-08-01",hasta:null,nota:"Nivel 1: 10% · 2: 15% · 3: 25% · 4: 30% · 5: 40%. Tope 150.000 en nivel 5.",src:"https://www.ueno.com.py/beneficio-byc/ago2026/combustibles/"},
-  {entidad:["ueno bank"],tipo:"Banco",emblemas:["Petropar"],dias:["todos"],afin:["Mastercard Dúo Clásica","Black","Albirroja"],pct:40,pctTxt:"10–40% según nivel",limite:null,tope:240000,per:"Mensual",desde:null,hasta:null,nota:"Escalonado por nivel de cuenta; tope 240.000 en nivel 5.",src:"https://www.benefix.com.py/descuentos/combustible"},
+  {entidad:["ueno bank"],tipo:"Banco",emblemas:["Petrobras (app Premmia)","Copetrol","Enex","Petrochaco","3MG","Puma (solo red upay)","Petromax"],dias:["todos"],afin:["Mastercard Dúo Clásica","Black","Albirroja"],pct:40,pctTxt:"40% en nivel 5",limite:150000,tope:60000,per:"Semanal",desde:"2026-10-01",hasta:"2026-10-31",niveles:[[10,25000,2500],[15,50000,7500],[25,75000,18750],[30,125000,37500],[40,150000,60000]],nota:"El % y el tope dependen de tu nivel en ueno (lo ves en la app, en Beneficios). El tope de compra se renueva cada semana.",src:"https://www.ueno.com.py/wp-content/uploads/2026/09/Beneficio-de-Reintegro-COMBUSTIBLES-_-OCT-2026v4.pdf"},
+  {entidad:["ueno bank"],tipo:"Banco",emblemas:["Petropar"],dias:["todos"],afin:["Mastercard Dúo Clásica","Black","Albirroja","app Petropar"],pct:40,pctTxt:"40% en nivel 5",limite:600000,tope:240000,per:"Mensual",desde:"2026-10-01",hasta:"2026-10-31",niveles:[[10,100000,10000],[15,200000,30000],[25,300000,75000],[30,500000,150000],[40,600000,240000]],nota:"El % y el tope dependen de tu nivel en ueno. Tarjeta física o Apple/Google Pay en POS upay, o carga desde la app Petropar; no vale QR.",src:"https://www.ueno.com.py/wp-content/uploads/2026/09/Beneficio-de-Reintegro-Petropar-_-OCT-2026v3.pdf"},
   {entidad:["Banco GNB"],tipo:"Banco",emblemas:["Copetrol"],dias:["lu"],afin:["Mastercard Metalcard","Black","Black Premier","QR app Copetrol Vamos"],pct:30,pctTxt:"30% (25% + 5% QR)",limite:1000000,tope:null,per:"Mensual",desde:"2026-07-06",hasta:"2026-12-28",nota:"Clásica y Oro: 15% + 5% QR = 20%. No aplica débito ni Visa.",src:"https://www.beneficiosbancognb.com.py/beneficios/148/"},
   {entidad:["Banco GNB"],tipo:"Banco",emblemas:["Petrobras (app Premmia)"],dias:["mi"],afin:["Mastercard GNB"],pct:20,pctTxt:"20%",limite:500000,tope:100000,per:"Diaria",desde:null,hasta:null,nota:"Tope por día de promoción. Las últimas bases encontradas vencían en 06/2025.",src:"https://www.petrobrasdistribucion.com.py/gnb/"},
   {entidad:["Banco GNB"],tipo:"Banco",emblemas:["Petrochaco"],dias:["ma"],afin:["Tarjetas de crédito GNB"],pct:20,pctTxt:"20%",limite:null,tope:null,per:"—",desde:null,hasta:null,nota:"",src:"https://www.beneficiosbancognb.com.py/beneficios/148/"},
@@ -187,73 +292,540 @@ const PROMOS = [
   {entidad:["Financiera Paraguayo Japonesa"],tipo:"Financiera",emblemas:["Petrochaco"],dias:["mi"],afin:["TC PJ"],pct:20,pctTxt:"20%",limite:null,tope:null,per:"—",desde:null,hasta:null,nota:"",src:"https://www.benefix.com.py/descuentos/combustible"}
 ];
 
-const DAYS=[["todos","Todos"],["lu","Lun"],["ma","Mar"],["mi","Mié"],["ju","Jue"],["vi","Vie"],["sa","Sáb"],["do","Dom"]];
-const TODAY=new Date();const TODAY_ISO=TODAY.toISOString().slice(0,10);
-const todayCode=["do","lu","ma","mi","ju","vi","sa"][TODAY.getDay()];
+const LOGOS = {
+ "ueno": {
+  "name": "ueno bank",
+  "domain": "ueno.com.py",
+  "icon": "logos/ueno-icon.svg",
+  "logo": "logos/ueno-logo.svg",
+  "color": "#2cdc8c",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "gnb": {
+  "name": "Banco GNB Paraguay",
+  "domain": "bancognb.com.py",
+  "icon": null,
+  "logo": "logos/gnb-logo.svg",
+  "color": "#0474ac",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "atlas": {
+  "name": "Banco Atlas",
+  "domain": "bancoatlas.com.py",
+  "icon": null,
+  "logo": "logos/atlas-logo.svg",
+  "color": "#e6b800",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "continental": {
+  "name": "Banco Continental",
+  "domain": "bancontinental.com.py",
+  "icon": "logos/continental-icon.png",
+  "logo": null,
+  "color": "#cedc00",
+  "iconMode": null,
+  "source": "favicon"
+ },
+ "familiar": {
+  "name": "Banco Familiar",
+  "domain": "familiar.com.py",
+  "icon": "logos/familiar-icon.png",
+  "logo": "logos/familiar-logo.webp",
+  "color": "#0e457e",
+  "iconMode": "light",
+  "source": "branddev"
+ },
+ "itau": {
+  "name": "Itaú Paraguay",
+  "domain": "itau.com.py",
+  "icon": "logos/itau-icon.png",
+  "logo": null,
+  "color": "#fb6506",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "interfisa": {
+  "name": "Interfisa Banco",
+  "domain": "interfisa.com.py",
+  "icon": "logos/interfisa-icon.png",
+  "logo": "logos/interfisa-logo.svg",
+  "color": "#e87e4f",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "fic": {
+  "name": "Financiera FIC",
+  "domain": "fic.com.py",
+  "icon": "logos/fic-icon.png",
+  "logo": "logos/fic-logo.png",
+  "color": "#ed1d24",
+  "iconMode": "light",
+  "source": "branddev"
+ },
+ "sudameris": {
+  "name": "Sudameris Bank",
+  "domain": "sudameris.com.py",
+  "icon": "logos/sudameris-icon.svg",
+  "logo": "logos/sudameris-logo.svg",
+  "color": "#fc0404",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "bnf": {
+  "name": "Banco Nacional de Fomento",
+  "domain": "bnf.gov.py",
+  "icon": "logos/bnf-icon.png",
+  "logo": "logos/bnf-logo.svg",
+  "color": "#a37c24",
+  "iconMode": "light",
+  "source": "branddev"
+ },
+ "fpj": {
+  "name": "Financiera Paraguayo Japonesa",
+  "domain": "fpj.com.py",
+  "icon": "logos/fpj-icon.png",
+  "logo": "logos/fpj-logo.png",
+  "color": "#194f90",
+  "iconMode": "light",
+  "source": "branddev"
+ },
+ "cabal": {
+  "name": "Cabal Paraguay",
+  "domain": "cabal.coop.py",
+  "icon": "logos/cabal-icon.png",
+  "logo": null,
+  "color": null,
+  "iconMode": null,
+  "source": "favicon"
+ },
+ "ypacarai": {
+  "name": "Cooperativa Ypacaraí",
+  "domain": "cooperativaypacarai.com.py",
+  "icon": "logos/ypacarai-icon.png",
+  "logo": "logos/ypacarai-logo.png",
+  "color": "#0e93d8",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "universitaria": {
+  "name": "Cooperativa Universitaria",
+  "domain": "universitaria.coop",
+  "icon": "logos/universitaria-icon.png",
+  "logo": "logos/universitaria-logo.svg",
+  "color": "#26884f",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "sanpedro": {
+  "name": "Cooperativa San Pedro",
+  "domain": "sanpedro.coop.py",
+  "icon": "logos/sanpedro-icon.png",
+  "logo": null,
+  "color": "#00763e",
+  "iconMode": "light",
+  "source": "branddev"
+ },
+ "coopeduc": {
+  "name": "Coopeduc",
+  "domain": "coopeduc.com.py",
+  "icon": null,
+  "logo": "logos/coopeduc-logo.png",
+  "color": "#2c3665",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "pinoza": {
+  "name": "Cooperativa Pinozá",
+  "domain": "pinoza.coop.py",
+  "icon": "logos/pinoza-icon.png",
+  "logo": "logos/pinoza-logo.png",
+  "color": "#0d9e3b",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "cumbre": {
+  "name": "Cooperativa Cumbre de la Cordillera",
+  "domain": "cumbre.coop.py",
+  "icon": "logos/cumbre-icon.png",
+  "logo": "logos/cumbre-logo.png",
+  "color": "#05654b",
+  "iconMode": "light",
+  "source": "branddev"
+ },
+ "cajamutual": {
+  "name": "Caja Mutual de Cooperativistas",
+  "domain": "cmcp.org.py",
+  "icon": null,
+  "logo": "logos/cajamutual-logo.svg",
+  "color": "#01d46b",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "mburicao": {
+  "name": "Cooperativa Mburicao",
+  "domain": "mburicao.coop.py",
+  "icon": "logos/mburicao-icon.png",
+  "logo": null,
+  "color": "#007d8a",
+  "iconMode": null,
+  "source": "favicon"
+ },
+ "yoayu": {
+  "name": "Cooperativa Yoayu",
+  "domain": "yoayu.coop.py",
+  "icon": "logos/yoayu-icon.png",
+  "logo": "logos/yoayu-logo.png",
+  "color": "#00883e",
+  "iconMode": null,
+  "source": "favicon"
+ },
+ "coopexsanjo": {
+  "name": "Coopexsanjo",
+  "domain": "coopexsanjo.org.py",
+  "icon": "logos/coopexsanjo-icon.svg",
+  "logo": null,
+  "color": "#16375d",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "coopec": {
+  "name": "Coopec Ltda",
+  "domain": "coopec.coop.py",
+  "icon": "logos/coopec-icon.png",
+  "logo": null,
+  "color": "#0f7c3e",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "capiata": {
+  "name": "Cooperativa Capiatá",
+  "domain": "capiata.coop.py",
+  "icon": "logos/capiata-icon.png",
+  "logo": null,
+  "color": "#157d50",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "copacons": {
+  "name": "Copacons",
+  "domain": "copacons.coop.py",
+  "icon": null,
+  "logo": null,
+  "color": "#ff7f00",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "medalla": {
+  "name": "Cooperativa Medalla Milagrosa",
+  "domain": "medalla.coop.py",
+  "icon": "logos/medalla-icon.png",
+  "logo": null,
+  "color": "#07a96b",
+  "iconMode": null,
+  "source": "favicon"
+ },
+ "coomecipar": {
+  "name": "Coomecipar",
+  "domain": "coomecipar.coop.py",
+  "icon": "logos/coomecipar-icon.png",
+  "logo": "logos/coomecipar-logo.png",
+  "color": "#0871b7",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "nanembae": {
+  "name": "Cooperativa Ñanemba'e",
+  "domain": "nanembae.coop.py",
+  "icon": "logos/nanembae-icon.png",
+  "logo": "logos/nanembae-logo.png",
+  "color": "#006633",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "petrosur": {
+  "name": "Petrosur",
+  "domain": "petrosur.com.py",
+  "icon": "logos/petrosur-icon.png",
+  "logo": "logos/petrosur-logo.svg",
+  "color": "#0e488a",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "petropar": {
+  "name": "Petropar",
+  "domain": "petropar.gov.py",
+  "icon": "logos/petropar-icon.png",
+  "logo": "logos/petropar-logo.png",
+  "color": "#093969",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "copetrol": {
+  "name": "Copetrol",
+  "domain": "copetrol.com.py",
+  "icon": "logos/copetrol-icon.png",
+  "logo": "logos/copetrol-logo.png",
+  "color": "#f6921e",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "shell": {
+  "name": "Shell",
+  "domain": "shell.com.py",
+  "icon": "logos/shell-icon.png",
+  "logo": null,
+  "color": "#ffc800",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "petrobras": {
+  "name": "Petrobras",
+  "domain": "petrobrasdistribucion.com.py",
+  "icon": "logos/petrobras-icon.png",
+  "logo": "logos/petrobras-logo.png",
+  "color": "#0b8536",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "enex": {
+  "name": "Enex",
+  "domain": "enex.com.py",
+  "icon": "logos/enex-icon.png",
+  "logo": "logos/enex-logo.svg",
+  "color": "#0450a6",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "puma": {
+  "name": "Puma Energy",
+  "domain": "pumaenergy.com",
+  "icon": "logos/puma-icon.jpg",
+  "logo": "logos/puma-logo.svg",
+  "color": "#e81f26",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "energy": {
+  "name": "Energy",
+  "domain": "energygas.com.py",
+  "icon": "logos/energy-icon.png",
+  "logo": "logos/energy-logo.png",
+  "color": "#0e8bc5",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "ecop": {
+  "name": "Ecop",
+  "domain": "ecop.com.py",
+  "icon": null,
+  "logo": "logos/ecop-logo.png",
+  "color": "#078530",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "petrochaco": {
+  "name": "Petrochaco",
+  "domain": "petrochacopy.com",
+  "icon": "logos/petrochaco-icon.png",
+  "logo": "logos/petrochaco-logo.svg",
+  "color": "#25328a",
+  "iconMode": "light",
+  "source": "branddev"
+ },
+ "compasa": {
+  "name": "Compasa",
+  "domain": "compasa.com.py",
+  "icon": "logos/compasa-icon.png",
+  "logo": "logos/compasa-logo.svg",
+  "color": "#d31c24",
+  "iconMode": "light",
+  "source": "branddev"
+ },
+ "ultra": {
+  "name": "Ultra",
+  "domain": "ultra.com.py",
+  "icon": "logos/ultra-icon.png",
+  "logo": "logos/ultra-logo.png",
+  "color": "#f03228",
+  "iconMode": "light",
+  "source": "branddev"
+ },
+ "petromax": {
+  "name": "Petromax",
+  "domain": "petromax.com.py",
+  "icon": "logos/petromax-icon.png",
+  "logo": "logos/petromax-logo.jpg",
+  "color": "#e40404",
+  "iconMode": "light",
+  "source": "branddev"
+ },
+ "3mg": {
+  "name": "3MG",
+  "domain": null,
+  "icon": null,
+  "logo": null,
+  "color": null,
+  "iconMode": null,
+  "source": "none"
+ }
+};
+
+// ---- Marcas: nombre en los datos -> slug del logo (logos/logos.json)
+const BRAND_RULES=[
+  [/ueno/i,"ueno"],[/GNB/i,"gnb"],[/Atlas/i,"atlas"],[/Continental/i,"continental"],[/Familiar/i,"familiar"],[/Ita[uú]/i,"itau"],
+  [/Interfisa/i,"interfisa"],[/FIC/,"fic"],[/Sudameris/i,"sudameris"],[/BNF/,"bnf"],[/Paraguayo Japonesa/i,"fpj"],[/Cabal/i,"cabal"],
+  [/Ypacara/i,"ypacarai"],[/Universitaria/i,"universitaria"],[/San Pedro/i,"sanpedro"],[/Coopeduc/i,"coopeduc"],[/Pinoz/i,"pinoza"],
+  [/Cumbre/i,"cumbre"],[/Caja Mutual/i,"cajamutual"],[/Mburicao/i,"mburicao"],[/Yoayu/i,"yoayu"],[/Coopexsanjo/i,"coopexsanjo"],
+  [/Coopec/i,"coopec"],[/Capiat/i,"capiata"],[/Copacons/i,"copacons"],[/Medalla/i,"medalla"],[/Coomecipar/i,"coomecipar"],[/Ñanemba|Nanemba/i,"nanembae"],
+  [/Petrosur/i,"petrosur"],[/Petropar/i,"petropar"],[/Copetrol/i,"copetrol"],[/Shell/i,"shell"],[/Petrobras/i,"petrobras"],[/Enex/i,"enex"],
+  [/Puma/i,"puma"],[/^Energy/i,"energy"],[/Ecop/i,"ecop"],[/Petrochaco/i,"petrochaco"],[/Compasa/i,"compasa"],[/^Ultra/i,"ultra"],
+  [/Petromax/i,"petromax"],[/3MG/i,"3mg"]
+];
+const slugOf=n=>{for(const [re,s] of BRAND_RULES) if(re.test(n)) return s; return null};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const FUEL_SVG='<svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M3 22V5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v17"/><path d="M2 22h13"/><path d="M14 9h2a2 2 0 0 1 2 2v5a1.5 1.5 0 0 0 3 0V8l-3-3"/><path d="M6 8h5"/></svg>';
+const initials=n=>n.replace(/^(Cooperativa|Banco|Financiera|Cooperativas con)\s+/i,"").split(/\s+/).filter(w=>/^[A-ZÁÉÍÓÚÑ0-9]/.test(w)).slice(0,2).map(w=>w[0]).join("")||n[0];
+function plate(name,size,isEmblem){
+  const s=slugOf(name),L=s&&LOGOS[s],cls="plate"+(size==="sm"?" sm":"");
+  if(L&&L.icon) return `<span class="${cls}"><img src="${L.icon}" alt="" loading="lazy" decoding="async" width="32" height="32"></span>`;
+  if(isEmblem&&!s) return `<span class="${cls} fuel">${FUEL_SVG}</span>`;
+  const bg=(L&&L.color)||"#0c5b51";
+  const [r,g,b]=[1,3,5].map(i=>parseInt(bg.slice(i,i+2),16)/255).map(v=>v<=.03928?v/12.92:((v+.055)/1.055)**2.4);
+  const ink=(.2126*r+.7152*g+.0722*b)>.3?"#111":"#fff";
+  return `<span class="${cls}" style="background:${bg}"><span class="mono" style="color:${ink}">${esc(initials(name))}</span></span>`;
+}
+
+// ---- Fuente: el link dice qué es
+function source(url){
+  const u=url.toLowerCase();
+  if(u.includes("instagram.com")) return {t:"Ver publicación en Instagram",k:"post"};
+  if(u.includes("facebook.com")||u.includes("x.com/")) return {t:"Ver publicación en Facebook",k:"post"};
+  if(u.includes("benefix")) return {t:"Ver en Benefix (agregador)",k:"agg"};
+  if(u.endsWith(".pdf")||/bases|beneficio|promo|noticias|gnb\/?$/.test(u)) return {t:"Bases y condiciones",k:"bases"};
+  return {t:"Página oficial",k:"bases"};
+}
+const LINK_SVG='<svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4 10 14"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>';
+const DOC_SVG='<svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>';
+
+// ---- Fechas (hora de Paraguay)
+const TZ="America/Asuncion";
+const TODAY_ISO=new Intl.DateTimeFormat("en-CA",{timeZone:TZ}).format(new Date());
+const WD=new Intl.DateTimeFormat("en-US",{timeZone:TZ,weekday:"short"}).format(new Date());
+const todayCode={Sun:"do",Mon:"lu",Tue:"ma",Wed:"mi",Thu:"ju",Fri:"vi",Sat:"sa"}[WD];
+const todayDom=+TODAY_ISO.slice(8,10);
+const DAYS=[["todos","Todos","semana"],["lu","Lun"],["ma","Mar"],["mi","Mié"],["ju","Jue"],["vi","Vie"],["sa","Sáb"],["do","Dom"]];
+const DAYNAME={lu:"lunes",ma:"martes",mi:"miércoles",ju:"jueves",vi:"viernes",sa:"sábado",do:"domingo"};
 const gs=n=>n==null?"—":"Gs. "+n.toLocaleString("es-PY");
+const fdate=d=>d.split("-").reverse().join("/");
 
-PROMOS.forEach(p=>{
-  const byLimit=(p.limite!=null&&p.pct!=null)?Math.round(p.limite*p.pct/100):null;
-  p.total=byLimit!=null&&p.tope!=null?Math.min(byLimit,p.tope):(byLimit??p.tope);
-  p.estado=p.antigua?"antigua":(p.hasta&&p.hasta<TODAY_ISO)?"vencida":(p.hasta&&(!p.desde||p.desde<=TODAY_ISO))?"vigente":"verificar";
-});
-
-let state={dia:"todos",tipo:"",emblema:"",q:"",vencidas:false,sort:"total",dir:"desc"};
-try{const s=JSON.parse(localStorage.getItem("promostc")||"{}");Object.assign(state,s)}catch(e){}
-const save=()=>{try{localStorage.setItem("promostc",JSON.stringify(state))}catch(e){}};
-
-const daysEl=document.getElementById("days");
-DAYS.forEach(([c,l])=>{
-  const b=document.createElement("button");b.className="day"+(c===todayCode?" today":"");b.dataset.d=c;
-  b.innerHTML=l+"<small>"+(c===todayCode?"hoy":c==="todos"?"semana":"&nbsp;")+"</small>";
-  b.onclick=()=>{state.dia=c;render()};daysEl.appendChild(b);
-});
-
-const emSel=document.getElementById("f-emblema");
-const emblemas=[...new Set(PROMOS.flatMap(p=>p.emblemas.map(e=>e.split(" (")[0])))].sort((a,b)=>a.localeCompare(b,"es"));
-emSel.innerHTML='<option value="">Todos los emblemas</option>'+emblemas.map(e=>`<option>${e}</option>`).join("");
-
+// ---- Estado de la vista
+let state={dia:todayCode,tipo:"",emb:"",q:"",vencidas:false,sort:"total",nivel:5};
+try{const s=JSON.parse(localStorage.getItem("promostc2")||"{}");
+  if(typeof s.tipo==="string")state.tipo=s.tipo; if(s.sort)state.sort=s.sort;
+  if(typeof s.vencidas==="boolean")state.vencidas=s.vencidas; if(s.nivel>=1&&s.nivel<=5)state.nivel=s.nivel}catch(e){}
+const save=()=>{try{localStorage.setItem("promostc2",JSON.stringify({tipo:state.tipo,sort:state.sort,vencidas:state.vencidas,nivel:state.nivel}))}catch(e){}};
 const $=id=>document.getElementById(id);
-$("f-tipo").onchange=e=>{state.tipo=e.target.value;render()};
-emSel.onchange=e=>{state.emblema=e.target.value;render()};
-$("f-q").oninput=e=>{state.q=e.target.value;render()};
-$("f-vencidas").onchange=e=>{state.vencidas=e.target.checked;render()};
-document.querySelectorAll("th button").forEach(b=>b.onclick=()=>{
-  const k=b.dataset.k;state.dir=state.sort===k&&state.dir==="desc"?"asc":"desc";state.sort=k;render()});
+
+// ---- Cálculo por promo (el nivel de ueno cambia % , límite y tope)
+PROMOS.forEach((p,i)=>{p.id=i;p.emSlugs=p.emblemas.map(slugOf);
+  p.estado=p.antigua?"antigua":(p.hasta&&p.hasta<TODAY_ISO)?"vencida":(p.hasta&&(!p.desde||p.desde<=TODAY_ISO))?"vigente":"verificar"});
+function compute(){
+  PROMOS.forEach(p=>{
+    if(p.niveles){const [pc,li,to]=p.niveles[state.nivel-1];p.pct=pc;p.limite=li;p.tope=to;p.pctTxt=`Nivel ${state.nivel}`}
+    const byLimit=(p.limite!=null&&p.pct!=null)?Math.round(p.limite*p.pct/100):null;
+    p.total=byLimit!=null&&p.tope!=null?Math.min(byLimit,p.tope):(byLimit??p.tope);
+    // Equivalente mensual para comparar topes semanales, diarios y mensuales
+    const f=p.per==="Semanal"?4.3:p.per==="Diaria"?(p.dias.includes("todos")?30:4.3):1;
+    p.mes=p.total==null?null:Math.round(p.total*f);
+  });
+}
+const active=p=>p.estado==="vigente"||p.estado==="verificar";
+const onDay=(p,d)=>d==="todos"||p.dias.includes("todos")||p.dias.includes(d)||(p.dias.includes("d10")&&d===todayCode&&todayDom===10);
+const atAll=p=>p.emblemas.some(e=>/Todas/i.test(e));
+
+// ---- Controles
+$("days").innerHTML=DAYS.map(([c,l,sub])=>`<button class="day" data-d="${c}" type="button">${l}<small>${c===todayCode?"hoy":(sub||"&nbsp;")}</small></button>`).join("");
+$("days").onclick=e=>{const b=e.target.closest(".day");if(!b)return;state.dia=b.dataset.d;render(true)};
+
+const EMB=[];const seen=new Set();
+PROMOS.forEach(p=>p.emblemas.forEach(e=>{const s=slugOf(e);if(s&&!seen.has(s)){seen.add(s);EMB.push({s,name:(LOGOS[s]&&LOGOS[s].name)||e.replace(/\s*\(.*\)$/,"")})}}));
+const countFor=s=>PROMOS.filter(p=>active(p)&&p.emSlugs.includes(s)).length;
+EMB.sort((a,b)=>countFor(b.s)-countFor(a.s)||a.name.localeCompare(b.name,"es"));
+$("emblems").innerHTML=`<button class="emb all" data-e="" type="button">Todas las estaciones</button>`+EMB.map(e=>`<button class="emb" data-e="${e.s}" type="button">${plate(e.name,"sm",true)}${esc(e.name)}</button>`).join("");
+$("emblems").onclick=ev=>{const b=ev.target.closest(".emb");if(!b)return;state.emb=state.emb===b.dataset.e?"":b.dataset.e;render(true)};
+
+const TIPOS=[["","Todas"],["Banco","Bancos"],["Financiera","Financieras"],["Cooperativa","Cooperativas"],["Mutual","Mutuales"]];
+$("tipos").innerHTML=TIPOS.map(([v,l])=>`<button type="button" data-t="${v}">${l}</button>`).join("");
+$("tipos").onclick=e=>{const b=e.target.closest("button");if(!b)return;state.tipo=b.dataset.t;render(true)};
+$("nivel").innerHTML=[1,2,3,4,5].map(n=>`<button type="button" data-n="${n}" aria-label="Nivel ${n}">${n}</button>`).join("");
+$("nivel").onclick=e=>{const b=e.target.closest("button");if(!b)return;state.nivel=+b.dataset.n;render(true)};
+$("q").oninput=e=>{state.q=e.target.value;render()};
+$("sort").onchange=e=>{state.sort=e.target.value;render()};
+$("vencidas").onchange=e=>{state.vencidas=e.target.checked;render()};
 
 const DAYORDER={todos:0,lu:1,ma:2,mi:3,ju:4,vi:5,sa:6,do:7,d10:8,"ver bases":9};
-const dayLabel=d=>d.map(x=>x==="todos"?"Todos los días":x==="ver bases"?"Ver bases":x==="d10"?"Día 10 de cada mes":DAYS.find(y=>y[0]===x)[1]).join(", ");
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const dayLabel=d=>d.map(x=>x==="todos"?"Todos los días":x==="ver bases"?"Ver bases":x==="d10"?"Día 10 de cada mes":DAYNAME[x][0].toUpperCase()+DAYNAME[x].slice(1)).join(", ");
+const KEY={total:p=>p.mes??-1,pct:p=>p.pct??-1,entidad:p=>p.entidad[0],dias:p=>DAYORDER[p.dias[0]]??9};
+const perTxt=p=>({Mensual:"por mes",Semanal:"por semana",Diaria:"por día","Por vigencia":"en toda la promo"}[p.per]||"");
 
-function render(){
-  document.querySelectorAll(".day").forEach(b=>b.setAttribute("aria-pressed",b.dataset.d===state.dia));
-  $("f-tipo").value=state.tipo;emSel.value=state.emblema;$("f-q").value=state.q;$("f-vencidas").checked=state.vencidas;
-  document.querySelectorAll("th button").forEach(b=>b.dataset.dir=b.dataset.k===state.sort?state.dir:"");
+function matches(p){
+  if(!state.vencidas&&!active(p))return false;
+  if(!onDay(p,state.dia))return false;
+  if(state.tipo&&p.tipo!==state.tipo)return false;
+  if(state.emb&&!p.emSlugs.includes(state.emb)&&!atAll(p))return false;
   const q=state.q.trim().toLowerCase();
-  let list=PROMOS.filter(p=>{
-    if(!state.vencidas&&(p.estado==="vencida"||p.estado==="antigua"))return false;
-    if(state.dia!=="todos"&&!(p.dias.includes(state.dia)||p.dias.includes("todos")))return false;
-    if(state.tipo&&p.tipo!==state.tipo)return false;
-    if(state.emblema&&!p.emblemas.some(e=>e.startsWith(state.emblema)))return false;
-    if(q&&![...p.entidad,...p.emblemas,...p.afin,p.nota].join(" ").toLowerCase().includes(q))return false;
-    return true;
-  });
-  const key={entidad:p=>p.entidad[0],dias:p=>DAYORDER[p.dias[0]]??9,pct:p=>p.pct??-1,limite:p=>p.limite??-1,total:p=>p.total??-1,per:p=>p.per}[state.sort];
-  list.sort((a,b)=>{const x=key(a),y=key(b);const r=typeof x==="string"?x.localeCompare(y,"es"):x-y;return state.dir==="asc"?r:-r});
-  $("rows").innerHTML=list.map(p=>`<tr>
-    <td data-l="Entidad"><div><span class="ent">${p.entidad.map(esc).join(" · ")}</span><span class="tipo">${p.tipo}</span>${p.nota?`<div class="note">${esc(p.nota)}</div>`:""}</div></td>
-    <td data-l="Emblemas"><div class="tags">${p.emblemas.map(e=>`<span class="tag em">${esc(e)}</span>`).join("")}</div></td>
-    <td data-l="Días">${dayLabel(p.dias)}</td>
-    <td data-l="Afinidades"><div class="tags">${p.afin.map(e=>`<span class="tag">${esc(e)}</span>`).join("")}</div></td>
-    <td data-l="% reintegro"><div class="pct">${p.pct!=null?p.pct+"%":"—"}${p.pctTxt&&p.pctTxt!==p.pct+"%"?`<small>${esc(p.pctTxt)}</small>`:""}</div></td>
-    <td data-l="Límite compra" class="num">${gs(p.limite)}</td>
-    <td data-l="Reintegro máx." class="num tot">${gs(p.total)}</td>
-    <td data-l="Periodicidad">${p.per}</td>
-    <td data-l="Estado"><div><span class="estado e-${p.estado}">${p.estado}</span>${p.hasta?`<div class="note">hasta ${p.hasta.split("-").reverse().join("/")}</div>`:""}<div class="note"><a href="${p.src}" target="_blank" rel="noopener">Fuente</a></div></div></td>
-  </tr>`).join("");
-  $("empty").hidden=list.length>0;
-  $("count").textContent=list.length+" de "+PROMOS.length+" promos";
+  if(q&&![...p.entidad,...p.emblemas,...p.afin,p.nota||""].join(" ").toLowerCase().includes(q))return false;
+  return true;
+}
+
+function bestHTML(){
+  const list=PROMOS.filter(p=>active(p)&&onDay(p,state.dia)&&p.pct!=null&&(!state.tipo||p.tipo===state.tipo)&&(!state.emb||p.emSlugs.includes(state.emb)||atAll(p)))
+    .sort((a,b)=>(b.mes??0)-(a.mes??0)||b.pct-a.pct).slice(0,4);
+  if(!list.length) return `<li class="nobest">No hay promos activas para ese día con estos filtros. Probá con otro día o con Todos.</li>`;
+  return list.map((p,i)=>`<li class="pick"><a href="#p${p.id}"><span class="rank">${i+1}</span>${plate(p.entidad[0])}<span class="who"><span class="nm">${esc(p.entidad.join(" · "))}</span><span class="em">${esc(p.emblemas.join(", "))}</span><span class="cap">${p.total!=null?"Hasta "+gs(p.total)+(perTxt(p)?" "+perTxt(p):""):"Sin tope informado"}</span></span><span class="pc">${p.pct}%</span></a></li>`).join("");
+}
+
+const COLS=`<div class="cols" aria-hidden="true"><span>Entidad y tarjetas</span><span>Estaciones</span><span>Días</span><span class="r">Reintegro</span><span class="r">Montos</span><span>Estado y fuente</span></div>`;
+function rowHTML(p){
+  const src=source(p.src);
+  return `<article class="promo${active(p)?"":" dim"}" id="p${p.id}">
+    <div class="ent">${plate(p.entidad[0])}<div class="txt"><h3>${esc(p.entidad.join(" · "))}</h3><span class="tipo">${p.tipo}</span>
+      <div class="afin">${p.afin.map(a=>`<span class="tag">${esc(a)}</span>`).join("")}</div>${p.nota?`<p class="note">${esc(p.nota)}</p>`:""}</div></div>
+    <div class="ems">${p.emblemas.map(e=>`<span class="em-i">${plate(e,"sm",true)}<span>${esc(e)}</span></span>`).join("")}</div>
+    <div class="dias">${dayLabel(p.dias)}${perTxt(p)?`<small>Tope ${perTxt(p)}</small>`:""}</div>
+    <div class="pct">${p.pct!=null?p.pct+"%":"—"}${p.pctTxt&&p.pctTxt!==p.pct+"%"?`<small>${esc(p.pctTxt)}</small>`:""}</div>
+    <dl class="money"><dt>Límite</dt><dd>${gs(p.limite)}</dd><dt>Tope</dt><dd>${gs(p.tope)}</dd><dt class="max">Máximo</dt><dd class="max">${gs(p.total)}</dd>${p.mes!=null&&p.mes!==p.total?`<dt>Por mes</dt><dd>≈ ${gs(p.mes)}</dd>`:""}</dl>
+    <div class="side"><span class="estado e-${p.estado}">${p.estado[0].toUpperCase()+p.estado.slice(1)}</span>${p.hasta?`<span class="until">${p.estado==="vencida"?"Terminó":"Hasta"} el ${fdate(p.hasta)}</span>`:""}
+      ${p.niveles?`<span class="lvl-note">Calculado con tu nivel ${state.nivel}</span>`:""}
+      <a class="src${src.k==="agg"?" agg":""}" href="${p.src}" target="_blank" rel="noopener">${src.k==="bases"?DOC_SVG:LINK_SVG}${src.t}</a></div>
+  </article>`;
+}
+
+function render(swap){
+  compute();
+  document.querySelectorAll(".day").forEach(b=>b.setAttribute("aria-pressed",b.dataset.d===state.dia));
+  document.querySelectorAll(".emb").forEach(b=>b.setAttribute("aria-pressed",b.dataset.e===state.emb));
+  document.querySelectorAll("#tipos button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.t===state.tipo));
+  document.querySelectorAll("#nivel button").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.n===state.nivel));
+  $("sort").value=state.sort;$("vencidas").checked=state.vencidas;
+  const d=state.dia;
+  $("today-title").textContent=d==="todos"?"Las promos de toda la semana":d===todayCode?`Hoy ${DAYNAME[d]} conviene cargar con`:`El ${DAYNAME[d]} conviene cargar con`;
+  const best=$("best");
+  const paint=()=>{best.innerHTML=bestHTML();best.classList.remove("swap")};
+  if(swap&&!matchMedia("(prefers-reduced-motion: reduce)").matches){best.classList.add("swap");setTimeout(paint,120)}else paint();
+
+  const k=KEY[state.sort],dir=state.sort==="entidad"||state.sort==="dias"?1:-1;
+  const list=PROMOS.filter(matches).sort((a,b)=>{const x=k(a),y=k(b);const r=typeof x==="string"?x.localeCompare(y,"es"):x-y;return r*dir||(b.mes??-1)-(a.mes??-1)});
+  $("list").innerHTML=list.length?COLS+list.map(rowHTML).join(""):`<div class="empty">No hay promos con estos filtros.<br><button type="button" id="reset">Ver todas las promos</button></div>`;
+  const r=$("reset");if(r)r.onclick=()=>{Object.assign(state,{dia:"todos",tipo:"",emb:"",q:""});$("q").value="";render(true)};
+  const emName=state.emb?(EMB.find(e=>e.s===state.emb)||{}).name:"";
+  $("list-title").textContent=d==="todos"?"Todas las promos":`Promos del ${DAYNAME[d]}`;
+  $("summary").textContent=`${list.length} ${list.length===1?"promo":"promos"}${emName?" en "+emName:""}${state.vencidas?", incluidas vencidas":""}`;
   save();
 }
 render();
 </script>
+</html>

@@ -1,0 +1,380 @@
+{
+ "ueno": {
+  "name": "ueno bank",
+  "domain": "ueno.com.py",
+  "icon": "logos/ueno-icon.svg",
+  "logo": "logos/ueno-logo.svg",
+  "color": "#2cdc8c",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "gnb": {
+  "name": "Banco GNB Paraguay",
+  "domain": "bancognb.com.py",
+  "icon": null,
+  "logo": "logos/gnb-logo.svg",
+  "color": "#0474ac",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "atlas": {
+  "name": "Banco Atlas",
+  "domain": "bancoatlas.com.py",
+  "icon": null,
+  "logo": "logos/atlas-logo.svg",
+  "color": "#e6b800",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "continental": {
+  "name": "Banco Continental",
+  "domain": "bancontinental.com.py",
+  "icon": "logos/continental-icon.png",
+  "logo": null,
+  "color": "#cedc00",
+  "iconMode": null,
+  "source": "favicon"
+ },
+ "familiar": {
+  "name": "Banco Familiar",
+  "domain": "familiar.com.py",
+  "icon": "logos/familiar-icon.png",
+  "logo": "logos/familiar-logo.webp",
+  "color": "#0e457e",
+  "iconMode": "light",
+  "source": "branddev"
+ },
+ "itau": {
+  "name": "Itaú Paraguay",
+  "domain": "itau.com.py",
+  "icon": "logos/itau-icon.png",
+  "logo": null,
+  "color": "#fb6506",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "interfisa": {
+  "name": "Interfisa Banco",
+  "domain": "interfisa.com.py",
+  "icon": "logos/interfisa-icon.png",
+  "logo": "logos/interfisa-logo.svg",
+  "color": "#e87e4f",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "fic": {
+  "name": "Financiera FIC",
+  "domain": "fic.com.py",
+  "icon": "logos/fic-icon.png",
+  "logo": "logos/fic-logo.png",
+  "color": "#ed1d24",
+  "iconMode": "light",
+  "source": "branddev"
+ },
+ "sudameris": {
+  "name": "Sudameris Bank",
+  "domain": "sudameris.com.py",
+  "icon": "logos/sudameris-icon.svg",
+  "logo": "logos/sudameris-logo.svg",
+  "color": "#fc0404",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "bnf": {
+  "name": "Banco Nacional de Fomento",
+  "domain": "bnf.gov.py",
+  "icon": "logos/bnf-icon.png",
+  "logo": "logos/bnf-logo.svg",
+  "color": "#a37c24",
+  "iconMode": "light",
+  "source": "branddev"
+ },
+ "fpj": {
+  "name": "Financiera Paraguayo Japonesa",
+  "domain": "fpj.com.py",
+  "icon": "logos/fpj-icon.png",
+  "logo": "logos/fpj-logo.png",
+  "color": "#194f90",
+  "iconMode": "light",
+  "source": "branddev"
+ },
+ "cabal": {
+  "name": "Cabal Paraguay",
+  "domain": "cabal.coop.py",
+  "icon": "logos/cabal-icon.png",
+  "logo": null,
+  "color": null,
+  "iconMode": null,
+  "source": "favicon"
+ },
+ "ypacarai": {
+  "name": "Cooperativa Ypacaraí",
+  "domain": "cooperativaypacarai.com.py",
+  "icon": "logos/ypacarai-icon.png",
+  "logo": "logos/ypacarai-logo.png",
+  "color": "#0e93d8",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "universitaria": {
+  "name": "Cooperativa Universitaria",
+  "domain": "universitaria.coop",
+  "icon": "logos/universitaria-icon.png",
+  "logo": "logos/universitaria-logo.svg",
+  "color": "#26884f",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "sanpedro": {
+  "name": "Cooperativa San Pedro",
+  "domain": "sanpedro.coop.py",
+  "icon": "logos/sanpedro-icon.png",
+  "logo": null,
+  "color": "#00763e",
+  "iconMode": "light",
+  "source": "branddev"
+ },
+ "coopeduc": {
+  "name": "Coopeduc",
+  "domain": "coopeduc.com.py",
+  "icon": null,
+  "logo": "logos/coopeduc-logo.png",
+  "color": "#2c3665",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "pinoza": {
+  "name": "Cooperativa Pinozá",
+  "domain": "pinoza.coop.py",
+  "icon": "logos/pinoza-icon.png",
+  "logo": "logos/pinoza-logo.png",
+  "color": "#0d9e3b",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "cumbre": {
+  "name": "Cooperativa Cumbre de la Cordillera",
+  "domain": "cumbre.coop.py",
+  "icon": "logos/cumbre-icon.png",
+  "logo": "logos/cumbre-logo.png",
+  "color": "#05654b",
+  "iconMode": "light",
+  "source": "branddev"
+ },
+ "cajamutual": {
+  "name": "Caja Mutual de Cooperativistas",
+  "domain": "cmcp.org.py",
+  "icon": null,
+  "logo": "logos/cajamutual-logo.svg",
+  "color": "#01d46b",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "mburicao": {
+  "name": "Cooperativa Mburicao",
+  "domain": "mburicao.coop.py",
+  "icon": "logos/mburicao-icon.png",
+  "logo": null,
+  "color": "#007d8a",
+  "iconMode": null,
+  "source": "favicon"
+ },
+ "yoayu": {
+  "name": "Cooperativa Yoayu",
+  "domain": "yoayu.coop.py",
+  "icon": "logos/yoayu-icon.png",
+  "logo": "logos/yoayu-logo.png",
+  "color": "#00883e",
+  "iconMode": null,
+  "source": "favicon"
+ },
+ "coopexsanjo": {
+  "name": "Coopexsanjo",
+  "domain": "coopexsanjo.org.py",
+  "icon": "logos/coopexsanjo-icon.svg",
+  "logo": null,
+  "color": "#16375d",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "coopec": {
+  "name": "Coopec Ltda",
+  "domain": "coopec.coop.py",
+  "icon": "logos/coopec-icon.png",
+  "logo": null,
+  "color": "#0f7c3e",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "capiata": {
+  "name": "Cooperativa Capiatá",
+  "domain": "capiata.coop.py",
+  "icon": "logos/capiata-icon.png",
+  "logo": null,
+  "color": "#157d50",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "copacons": {
+  "name": "Copacons",
+  "domain": "copacons.coop.py",
+  "icon": null,
+  "logo": null,
+  "color": "#ff7f00",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "medalla": {
+  "name": "Cooperativa Medalla Milagrosa",
+  "domain": "medalla.coop.py",
+  "icon": "logos/medalla-icon.png",
+  "logo": null,
+  "color": "#07a96b",
+  "iconMode": null,
+  "source": "favicon"
+ },
+ "coomecipar": {
+  "name": "Coomecipar",
+  "domain": "coomecipar.coop.py",
+  "icon": "logos/coomecipar-icon.png",
+  "logo": "logos/coomecipar-logo.png",
+  "color": "#0871b7",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "nanembae": {
+  "name": "Cooperativa Ñanemba'e",
+  "domain": "nanembae.coop.py",
+  "icon": "logos/nanembae-icon.png",
+  "logo": "logos/nanembae-logo.png",
+  "color": "#006633",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "petrosur": {
+  "name": "Petrosur",
+  "domain": "petrosur.com.py",
+  "icon": "logos/petrosur-icon.png",
+  "logo": "logos/petrosur-logo.svg",
+  "color": "#0e488a",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "petropar": {
+  "name": "Petropar",
+  "domain": "petropar.gov.py",
+  "icon": "logos/petropar-icon.png",
+  "logo": "logos/petropar-logo.png",
+  "color": "#093969",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "copetrol": {
+  "name": "Copetrol",
+  "domain": "copetrol.com.py",
+  "icon": "logos/copetrol-icon.png",
+  "logo": "logos/copetrol-logo.png",
+  "color": "#f6921e",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "shell": {
+  "name": "Shell",
+  "domain": "shell.com.py",
+  "icon": "logos/shell-icon.png",
+  "logo": null,
+  "color": "#ffc800",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "petrobras": {
+  "name": "Petrobras",
+  "domain": "petrobrasdistribucion.com.py",
+  "icon": "logos/petrobras-icon.png",
+  "logo": "logos/petrobras-logo.png",
+  "color": "#0b8536",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "enex": {
+  "name": "Enex",
+  "domain": "enex.com.py",
+  "icon": "logos/enex-icon.png",
+  "logo": "logos/enex-logo.svg",
+  "color": "#0450a6",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "puma": {
+  "name": "Puma Energy",
+  "domain": "pumaenergy.com",
+  "icon": "logos/puma-icon.jpg",
+  "logo": "logos/puma-logo.svg",
+  "color": "#e81f26",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "energy": {
+  "name": "Energy",
+  "domain": "energygas.com.py",
+  "icon": "logos/energy-icon.png",
+  "logo": "logos/energy-logo.png",
+  "color": "#0e8bc5",
+  "iconMode": "dark",
+  "source": "branddev"
+ },
+ "ecop": {
+  "name": "Ecop",
+  "domain": "ecop.com.py",
+  "icon": null,
+  "logo": "logos/ecop-logo.png",
+  "color": "#078530",
+  "iconMode": null,
+  "source": "branddev"
+ },
+ "petrochaco": {
+  "name": "Petrochaco",
+  "domain": "petrochacopy.com",
+  "icon": "logos/petrochaco-icon.png",
+  "logo": "logos/petrochaco-logo.svg",
+  "color": "#25328a",
+  "iconMode": "light",
+  "source": "branddev"
+ },
+ "compasa": {
+  "name": "Compasa",
+  "domain": "compasa.com.py",
+  "icon": "logos/compasa-icon.png",
+  "logo": "logos/compasa-logo.svg",
+  "color": "#d31c24",
+  "iconMode": "light",
+  "source": "branddev"
+ },
+ "ultra": {
+  "name": "Ultra",
+  "domain": "ultra.com.py",
+  "icon": "logos/ultra-icon.png",
+  "logo": "logos/ultra-logo.png",
+  "color": "#f03228",
+  "iconMode": "light",
+  "source": "branddev"
+ },
+ "petromax": {
+  "name": "Petromax",
+  "domain": "petromax.com.py",
+  "icon": "logos/petromax-icon.png",
+  "logo": "logos/petromax-logo.jpg",
+  "color": "#e40404",
+  "iconMode": "light",
+  "source": "branddev"
+ },
+ "3mg": {
+  "name": "3MG",
+  "domain": null,
+  "icon": null,
+  "logo": null,
+  "color": null,
+  "iconMode": null,
+  "source": "none"
+ }
+}
