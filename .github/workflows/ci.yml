@@ -1,0 +1,27 @@
+name: CI
+
+# Solo push y a mano. El repo es público: con pull_request, un PR desde un fork
+# correría código en los runners propios (oracle-dev). Sin paths-ignore: cada
+# commit de main tiene que tener su run, porque static-cd en Oracle deploya solo
+# commits de main con el run de push en verde.
+on:
+  push:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Check
+    runs-on: oracle-ci
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      # python3 viene en la imagen del runner (ghcr.io/actions/actions-runner).
+      - name: Referencias locales, HTML y datos
+        run: python3 .github/scripts/check_site.py .
