@@ -3,7 +3,7 @@
 Reintegros en combustible con tarjetas de bancos, financieras y cooperativas de Paraguay.
 Sitio estático: `index.html` + `stations.json` + `logos/`.
 
-- Render: https://promostc.onrender.com
+- Oracle (prod): https://promostc.163-176-35-57.sslip.io — se publica solo con cada push a `main` que pasa el CI
 - GitHub Pages: https://oscar-santacruz.github.io/promostc-py/
 
 ## Regla de datos
